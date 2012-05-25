@@ -34,8 +34,8 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
             // 
             // explorerListView
@@ -50,7 +50,7 @@
             this.explorerListView.FullRowSelect = true;
             this.explorerListView.Location = new System.Drawing.Point(0, 0);
             this.explorerListView.Name = "explorerListView";
-            this.explorerListView.Size = new System.Drawing.Size(244, 150);
+            this.explorerListView.Size = new System.Drawing.Size(334, 150);
             this.explorerListView.SmallImageList = this.imageList1;
             this.explorerListView.TabIndex = 0;
             this.explorerListView.UseCompatibleStateImageBehavior = false;
@@ -73,6 +73,10 @@
             // 
             this.columnHeader3.Text = "Size";
             // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Date";
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -81,17 +85,13 @@
             this.imageList1.Images.SetKeyName(1, "FolderOpen_16x16_72.png");
             this.imageList1.Images.SetKeyName(2, "Hard_Drive.png");
             // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Date";
-            // 
             // ExplorerList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.explorerListView);
             this.Name = "ExplorerList";
-            this.Size = new System.Drawing.Size(244, 150);
+            this.Size = new System.Drawing.Size(334, 150);
             this.ResumeLayout(false);
 
         }

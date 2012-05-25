@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 using Backup.Core;
 
 namespace Backup.Gui
@@ -20,9 +21,9 @@ namespace Backup.Gui
             set { controller = value; }
         }
 
-        public DHBWBackup(BackupController controller)
+        public DHBWBackup()
         {
-            Controller = controller;
+            Controller = BackupController.getInstance();
             InitializeComponent();
             this.explorer1.ExplorerTreeV.NodeMouseClick += new TreeNodeMouseClickEventHandler(this.ExplorerTreeV_NodeMouseClick);
             this.explorerList1.ExListView.ItemChecked += new ItemCheckedEventHandler(ExListView_ItemChecked);
@@ -33,11 +34,25 @@ namespace Backup.Gui
             ExplorerListItem item = e.Item as ExplorerListItem;
             if (item.Checked)
             {
-                Controller.SelectedDirs.Add(item.DirInfo);
+                if (item.DirInfo != null)
+                {
+                    Controller.SelectedDirs.Add(new BackupFileInfo(item.DirInfo));    
+                }
+                else
+                {
+                    Controller.SelectedFiles.Add(new BackupFileInfo(item.FileIn));
+                }
             }
             else
             {
-                Controller.SelectedDirs.Remove(item.DirInfo);
+                if (item.DirInfo != null)
+                {
+                    Controller.SelectedDirs.Remove(new BackupFileInfo(item.DirInfo));
+                }
+                else
+                {
+                    Controller.SelectedFiles.Remove(new BackupFileInfo(item.FileIn));
+                }
             }
         }
         
@@ -51,5 +66,24 @@ namespace Backup.Gui
         {
             this.explorerList1.DirectoryBack();
         }
+
+        private void startBackupLabel_Click(object sender, EventArgs e)
+        {
+            Controller.startBackup();
+        }
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dia = new SaveFileDialog();
+            dia.Title = "Backup Destination";
+            dia.DefaultExt = "dhbw";
+            DialogResult result = dia.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Controller.Destination = new FileInfo(dia.FileName);
+                txtBackupDestination.Text = dia.FileName;
+            }
+        }
+
     }
 }

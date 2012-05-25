@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Core\BackupBuilder.cs" />
     <Compile Include="Core\BackupController.cs" />
+    <Compile Include="Core\BackupFileInfo.cs" />
     <Compile Include="Core\Container.cs" />
     <Compile Include="Core\BackupFile.cs" />
     <Compile Include="Core\ExplorerListItem.cs" />

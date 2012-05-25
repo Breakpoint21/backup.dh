@@ -38,11 +38,11 @@ namespace Backup
             //DirectoryInfo dest = new DirectoryInfo(@"C:\Users\Pascal\Restore");
             //restore.RestoreBackup(@"C:\Users\Pascal\backup.dhbw", dest);
 
-            BackupController controller = new BackupController();
+            //BackupController controller = new BackupController();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DHBWBackup(controller));
+            Application.Run(new DHBWBackup());
         }
     }
 }

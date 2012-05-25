@@ -65,6 +65,7 @@ namespace Backup.Gui
         {
             ListView.SelectedListViewItemCollection selected = explorerListView.SelectedItems;
             ExplorerListItem sel = selected[0] as ExplorerListItem;
+           
             if(sel.DirInfo != null)
             {
                 fillListView(sel.DirInfo);

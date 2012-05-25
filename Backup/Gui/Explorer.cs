@@ -38,6 +38,13 @@ namespace Backup.Gui
                     explorerTreeView.Nodes.Add(new ExplorerTreeNode(drive.RootDirectory));
                 }
             }
+            FileDialogCustomPlacesCollection coll = new FileDialogCustomPlacesCollection();
+            
+            foreach (FileDialogCustomPlace place in coll)
+            {
+                DirectoryInfo dir = new DirectoryInfo(place.Path);
+                explorerTreeView.Nodes.Add(new ExplorerTreeNode(dir));
+            }
 
             FetchingService fetchServ = new FetchingService();
             foreach (ExplorerTreeNode treeNode in explorerTreeView.Nodes)

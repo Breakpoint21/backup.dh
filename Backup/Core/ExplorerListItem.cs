@@ -15,6 +15,8 @@ namespace Backup.Core
 
         private DirectoryInfo parentDir;
 
+        private BackupController controller = BackupController.getInstance();
+
         public DirectoryInfo ParentDir
         {
             get { return parentDir; }
@@ -26,7 +28,13 @@ namespace Backup.Core
             get { return dirInfo; }
             set { dirInfo = value; }
         }
-        private FileInfo fileInfo;
+        private FileInfo fileIn;
+
+        public FileInfo FileIn
+        {
+            get { return fileIn; }
+            set { fileIn = value; }
+        }
 
         public ExplorerListItem(DriveInfo driveInfo)
         {
@@ -42,6 +50,10 @@ namespace Backup.Core
 
         public ExplorerListItem(DirectoryInfo dirInfo)
         {
+            if (controller.SelectedDirs.Contains(new BackupFileInfo(dirInfo)))
+            {
+                this.Checked = true;
+            }
             this.ParentDir = dirInfo.Parent;
             this.DirInfo = dirInfo;
             this.Text = dirInfo.Name;
@@ -54,8 +66,13 @@ namespace Backup.Core
         public ExplorerListItem(FileInfo file)
         {
             ParentDir = file.Directory;
-            this.fileInfo = file;
+            this.FileIn = file;
             this.Text = file.Name;
+
+            if (controller.SelectedFiles.Contains(new BackupFileInfo(file)))
+            {
+                this.Checked = true;
+            }
 
             this.SubItems.Add(file.Extension);
             long size = file.Length;

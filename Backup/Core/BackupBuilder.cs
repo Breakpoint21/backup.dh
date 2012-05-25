@@ -10,6 +10,13 @@ namespace Backup.Core
 {
     class BackupBuilder
     {
+        private FileInfo destination;
+
+        public FileInfo Destination
+        {
+            get { return destination; }
+            set { destination = value; }
+        }
         byte[] header;
         byte[] manifest;
 
@@ -18,8 +25,9 @@ namespace Backup.Core
             
         }
 
-        public void BuildBackup(List<FileInfo> files)
+        public void BuildBackup(List<FileInfo> files, FileInfo destination)
         {
+            Destination = destination;
             List<BackupFile> byteFiles = new List<BackupFile>();
             
             foreach (FileInfo file in files)
@@ -66,7 +74,7 @@ namespace Backup.Core
             watch.Start();
             FileInfo temp = new FileInfo(tempFile);
             FileStream inFile = temp.OpenRead();
-            FileStream outFile = new FileStream(@"C:\Users\Pascal\backup.dhbw", FileMode.Create, FileAccess.Write);
+            FileStream outFile = new FileStream(Destination.FullName, FileMode.Create, FileAccess.Write);
             using (GZipStream zip = new GZipStream(outFile, CompressionMode.Compress))
             {
                 inFile.CopyTo(zip);

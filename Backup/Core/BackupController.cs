@@ -8,24 +8,64 @@ namespace Backup.Core
 {
     public class BackupController
     {
-        List<DirectoryInfo> selectedDirs = new List<DirectoryInfo>();
-        List<FileInfo> selectedFiles = new List<FileInfo>();
+        private List<BackupFileInfo> selectedDirs = new List<BackupFileInfo>();
+        private List<BackupFileInfo> selectedFiles = new List<BackupFileInfo>();
+        private FileInfo destination = null;
 
-        public List<FileInfo> SelectedFiles
+        public FileInfo Destination
+        {
+            get { return destination; }
+            set { destination = value; }
+        }
+
+        public List<BackupFileInfo> SelectedFiles
         {
             get { return selectedFiles; }
             set { selectedFiles = value; }
         }
 
-        public List<DirectoryInfo> SelectedDirs
+        public List<BackupFileInfo> SelectedDirs
         {
             get { return selectedDirs; }
             set { selectedDirs = value; }
-        } 
+        }
 
-        public BackupController()
+        private static BackupController instance;
+
+        private static BackupController Instance
+        {
+            get { return instance; }
+            set { instance = value; }
+        }
+
+        public static BackupController getInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new BackupController();
+            }
+            return Instance;
+        }
+
+        private BackupController()
         {
 
+        }
+
+        public void startBackup()
+        {
+            BackupBuilder builder = new BackupBuilder();
+            //Add Dirs to the Files List
+            List<FileInfo> backupFiles = new List<FileInfo>();
+            foreach (BackupFileInfo dir in SelectedDirs)
+            {
+                backupFiles.AddRange(dir.DirInfo.GetFiles());
+            }
+            foreach (BackupFileInfo file in SelectedFiles)
+            {
+                backupFiles.Add(file.FileIn);
+            }
+            builder.BuildBackup(backupFiles, Destination);
         }
     }
 }

@@ -49,7 +49,6 @@ namespace Backup.Core
             this.SubItems.Add("Directory");
             this.SubItems.Add(string.Empty);
             this.SubItems.Add(dirInfo.LastWriteTime.ToShortDateString());
-            //this.SubItems.Add(dirInfo.Name);
         }
 
         public ExplorerListItem(FileInfo file)

@@ -85,5 +85,11 @@ namespace Backup.Gui
             }
         }
 
+        private void btnRestore_Click(object sender, EventArgs e)
+        {
+            RestoreBackup restoreWindow = new RestoreBackup();
+            restoreWindow.Show(this);
+        }
+
     }
 }

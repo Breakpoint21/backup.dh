@@ -43,6 +43,7 @@
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.startBackupLabel = new System.Windows.Forms.ToolStripLabel();
+            this.btnRestore = new System.Windows.Forms.ToolStripButton();
             this.backupWorker = new System.ComponentModel.BackgroundWorker();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.lblBackupDestination = new System.Windows.Forms.ToolStripLabel();
@@ -138,7 +139,8 @@
             this.toolStripButton2,
             this.toolStripComboBox1,
             this.toolStripTextBox1,
-            this.startBackupLabel});
+            this.startBackupLabel,
+            this.btnRestore});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(616, 25);
@@ -185,6 +187,16 @@
             this.startBackupLabel.Size = new System.Drawing.Size(31, 22);
             this.startBackupLabel.Text = "Start";
             this.startBackupLabel.Click += new System.EventHandler(this.startBackupLabel_Click);
+            // 
+            // btnRestore
+            // 
+            this.btnRestore.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRestore.Image = ((System.Drawing.Image)(resources.GetObject("btnRestore.Image")));
+            this.btnRestore.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRestore.Name = "btnRestore";
+            this.btnRestore.Size = new System.Drawing.Size(23, 22);
+            this.btnRestore.Text = "Restore";
+            this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
             // 
             // toolStrip2
             // 
@@ -270,5 +282,6 @@
         private System.Windows.Forms.ToolStripLabel lblBackupDestination;
         private System.Windows.Forms.ToolStripTextBox txtBackupDestination;
         private System.Windows.Forms.ToolStripButton btnBrowse;
+        private System.Windows.Forms.ToolStripButton btnRestore;
     }
 }

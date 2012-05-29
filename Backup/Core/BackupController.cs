@@ -60,7 +60,7 @@ namespace Backup.Core
             List<FileInfo> backupFiles = new List<FileInfo>();
             foreach (BackupFileInfo dir in SelectedDirs)
             {
-                backupFiles.AddRange(dir.DirInfo.GetFiles());
+                backupFiles.AddRange(dir.DirInfo.GetFiles("*", SearchOption.AllDirectories));
             }
             foreach (BackupFileInfo file in SelectedFiles)
             {

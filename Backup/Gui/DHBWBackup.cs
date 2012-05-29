@@ -118,7 +118,7 @@ namespace Backup.Gui
 
         private void backupWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            pgbStatus.Value += e.ProgressPercentage;
+            pgbStatus.Value = e.ProgressPercentage;
         }
 
         private void backupWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

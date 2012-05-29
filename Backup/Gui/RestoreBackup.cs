@@ -56,6 +56,15 @@ namespace Backup.Gui
             {
                 Controller.BackupFile = new FileInfo(dia.FileName);
                 this.SourcePath = dia.FileName;
+                FillListView(Controller.BuildIndex());
+            }
+        }
+
+        private void FillListView(List<string> list)
+        {
+            foreach (string file in list)
+            {
+                restoreFilesListView.Items.Add(new ListViewItem(file));
             }
         }
 
@@ -75,6 +84,19 @@ namespace Backup.Gui
         private void btnStartRestore_Click(object sender, EventArgs e)
         {
             Controller.RestoreBackup();
+        }
+
+        private void rdbSelectedBackup_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton button = sender as RadioButton;
+            if (button.Checked)
+            {
+                restoreFilesListView.Enabled = true;
+            }
+            else
+            {
+                restoreFilesListView.Enabled = false;
+            }
         }
     }
 }

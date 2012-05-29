@@ -138,6 +138,7 @@
             // 
             // RestoreBackup
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(586, 332);
@@ -153,6 +154,8 @@
             this.Controls.Add(this.rdbCompleteBackup);
             this.Name = "RestoreBackup";
             this.Text = "Form1";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.RestoreBackup_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.RestoreBackup_DragEnter);
             this.ResumeLayout(false);
             this.PerformLayout();
 

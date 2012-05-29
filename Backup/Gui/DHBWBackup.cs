@@ -69,7 +69,7 @@ namespace Backup.Gui
 
         private void startBackupLabel_Click(object sender, EventArgs e)
         {
-            Controller.startBackup();
+            backupWorker.RunWorkerAsync();
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -89,6 +89,41 @@ namespace Backup.Gui
         {
             RestoreBackup restoreWindow = new RestoreBackup();
             restoreWindow.Show(this);
+        }
+
+        private void DHBWBackup_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetData(DataFormats.FileDrop) != null)
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        private void DHBWBackup_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] fileNames = e.Data.GetData(DataFormats.FileDrop) as string[];
+            foreach (string file in fileNames)
+            {
+                Controller.SelectedFiles.Add(new BackupFileInfo(new FileInfo(file)));
+            }
+        }
+
+        private void backupWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (Controller.Destination != null)
+            {
+                Controller.startBackup(backupWorker);
+            }
+        }
+
+        private void backupWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            pgbStatus.Value += e.ProgressPercentage;
+        }
+
+        private void backupWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            pgbStatus.Value = 0;
         }
 
     }

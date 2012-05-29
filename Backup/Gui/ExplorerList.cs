@@ -13,10 +13,10 @@ namespace Backup.Gui
 {
     public partial class ExplorerList : UserControl
     {
-        private ListView exListView;
+        private ExplorerListView exListView;
         private ListViewColumnSorter lstviewSorter;
 
-        public ListView ExListView
+        public ExplorerListView ExListView
         {
             get { return exListView; }
             set { exListView = value; }
@@ -65,8 +65,8 @@ namespace Backup.Gui
         {
             ListView.SelectedListViewItemCollection selected = explorerListView.SelectedItems;
             ExplorerListItem sel = selected[0] as ExplorerListItem;
-           
-            if(sel.DirInfo != null)
+          
+            if (sel.DirInfo != null)
             {
                 fillListView(sel.DirInfo);
             }
@@ -108,6 +108,17 @@ namespace Backup.Gui
             lstviewSorter.ColumnToSort = e.Column;
 
             this.explorerListView.Sort();
+        }
+
+        private void explorerListView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            //ListView.SelectedListViewItemCollection selected = explorerListView.SelectedItems;
+            //ExplorerListItem sel = selected[0] as ExplorerListItem;
+
+            //if (sel.DirInfo != null)
+            //{
+            //    fillListView(sel.DirInfo);
+            //}
         }
     }
 }

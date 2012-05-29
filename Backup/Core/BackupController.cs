@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.ComponentModel;
 
 namespace Backup.Core
 {
@@ -52,7 +53,7 @@ namespace Backup.Core
 
         }
 
-        public void startBackup()
+        public void startBackup(BackgroundWorker worker)
         {
             BackupBuilder builder = new BackupBuilder();
             //Add Dirs to the Files List
@@ -65,6 +66,7 @@ namespace Backup.Core
             {
                 backupFiles.Add(file.FileIn);
             }
+            builder.Worker = worker;
             builder.BuildBackup(backupFiles, Destination);
         }
     }

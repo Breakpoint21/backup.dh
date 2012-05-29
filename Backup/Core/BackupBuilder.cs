@@ -5,12 +5,20 @@ using System.Text;
 using System.IO;
 using System.IO.Compression;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace Backup.Core
 {
     class BackupBuilder
     {
         private FileInfo destination;
+        private BackgroundWorker worker;
+
+        public BackgroundWorker Worker
+        {
+            get { return worker; }
+            set { worker = value; }
+        }
 
         public FileInfo Destination
         {
@@ -27,6 +35,8 @@ namespace Backup.Core
 
         public void BuildBackup(List<FileInfo> files, FileInfo destination)
         {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
             Destination = destination;
             List<BackupFile> byteFiles = new List<BackupFile>();
             
@@ -56,15 +66,21 @@ namespace Backup.Core
                 fs.Write(manifest, 0, manifest.Length);
                 foreach (BackupFile byteFile in byteFiles)
                 {
+                    
                     foreach (byte[] item in byteFile.File)
                     {
                         fs.Write(item, 0, item.Length);
+                    }
+                    if (Worker != null)
+                    {
+                        Worker.ReportProgress((int)100 /byteFiles.Count);
                     }
                 }
                 fs.Close();
                 Console.WriteLine(Process.GetCurrentProcess().PrivateMemorySize64);
             }
-
+            watch.Stop();
+            Logger.Log("Build Temp file took: " + watch.ElapsedMilliseconds + "ms", Logger.Level.DIAGNOSTIC);
             Compress(tempFile);
         }
 
@@ -77,6 +93,7 @@ namespace Backup.Core
             FileStream outFile = new FileStream(Destination.FullName, FileMode.Create, FileAccess.Write);
             using (GZipStream zip = new GZipStream(outFile, CompressionMode.Compress))
             {
+
                 inFile.CopyTo(zip);
                 zip.Close();
             }

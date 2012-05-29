@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExplorerList));
-            this.explorerListView = new System.Windows.Forms.ListView();
+            this.explorerListView = new Backup.Gui.ExplorerListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -57,6 +57,7 @@
             this.explorerListView.View = System.Windows.Forms.View.Details;
             this.explorerListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.explorerListView_ColumnClick);
             this.explorerListView.DoubleClick += new System.EventHandler(this.explorerListView_DoubleClick);
+            this.explorerListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.explorerListView_MouseDoubleClick);
             // 
             // columnHeader1
             // 
@@ -98,7 +99,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView explorerListView;
+        private Backup.Gui.ExplorerListView explorerListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;

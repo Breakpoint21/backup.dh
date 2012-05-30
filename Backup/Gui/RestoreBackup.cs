@@ -168,5 +168,20 @@ namespace Backup.Gui
                 }
             }
         }
+
+        private void restoreWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        private void restoreWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+        }
+
+        private void restoreWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
     }
 }

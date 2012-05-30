@@ -106,6 +106,7 @@ namespace Backup.Core
 
         internal void RestoreSelectedFiles(FileInfo BackupFile, DirectoryInfo RestoreDestination, Dictionary<FileInfo, long> SelectedFiles)
         {
+            //Create Dictorary which holds the offset for every File
             Dictionary<FileInfo, long> index = createIndex(BackupFile.FullName);
             Dictionary<string, long> offsetIndex = new Dictionary<string, long>();
             long offset = 0;
@@ -114,22 +115,23 @@ namespace Backup.Core
                 offsetIndex.Add(item.Key.Name, offset);
                 offset += item.Value;
             }
+
             FileInfo tempFile = Decompress(BackupFile.FullName);
             header = new byte[8];
             using (FileStream reader = new FileStream(tempFile.FullName, FileMode.Open, FileAccess.Read))
             {
+                //Read Header and Manifest
                 reader.Read(header, 0, 8);
                 manifest = new byte[BitConverter.ToInt32(header, 4)];
                 reader.Read(manifest, 0, manifest.Length);
+                //Read and Restore each selected File
                 foreach (KeyValuePair<FileInfo, long> file in SelectedFiles)
                 {
                     long pos = offsetIndex[file.Key.Name];
-                    //reader.Position = header.Length + manifest.Length + pos;
                     reader.Seek((header.Length + manifest.Length + pos), SeekOrigin.Begin);
                     BackupFile f = new BackupFile();
                     f.restore(reader, RestoreDestination);
                 }
-
                 reader.Close();
             }
             tempFile.Delete();

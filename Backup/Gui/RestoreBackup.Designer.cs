@@ -41,6 +41,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnStartRestore = new System.Windows.Forms.Button();
             this.size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.restoreWorker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // rdbCompleteBackup
@@ -121,6 +122,13 @@
             // 
             resources.ApplyResources(this.size, "size");
             // 
+            // restoreWorker
+            // 
+            this.restoreWorker.WorkerReportsProgress = true;
+            this.restoreWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.restoreWorker_DoWork);
+            this.restoreWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.restoreWorker_ProgressChanged);
+            this.restoreWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.restoreWorker_RunWorkerCompleted);
+            // 
             // RestoreBackup
             // 
             this.AllowDrop = true;
@@ -158,5 +166,6 @@
         private System.Windows.Forms.Button btnStartRestore;
         private System.Windows.Forms.ColumnHeader File;
         private System.Windows.Forms.ColumnHeader size;
+        private System.ComponentModel.BackgroundWorker restoreWorker;
     }
 }

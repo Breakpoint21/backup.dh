@@ -25,8 +25,10 @@ namespace Backup.Gui
         public string SourcePath
         {
             get { return sourcePath; }
-            set { sourcePath = value;
-            this.txtRestoreSource.Text = sourcePath;
+            set 
+            { 
+                sourcePath = value;
+                this.txtRestoreSource.Text = sourcePath;
             }
         }
         private string destinationPath;
@@ -34,8 +36,10 @@ namespace Backup.Gui
         public string DestinationPath
         {
             get { return destinationPath; }
-            set { destinationPath = value;
-            this.txtRestoreDestination.Text = destinationPath;
+            set 
+            { 
+                destinationPath = value;
+                this.txtRestoreDestination.Text = destinationPath;
             }
         }
 
@@ -96,6 +100,22 @@ namespace Backup.Gui
             else
             {
                 restoreFilesListView.Enabled = false;
+            }
+        }
+
+        private void txtRestoreSource_Click(object sender, EventArgs e)
+        {
+            if (txtRestoreSource.Text == string.Empty)
+            {
+                btnBrowseSource_Click(null, EventArgs.Empty);
+            }
+        }
+
+        private void txtRestoreDestination_Click(object sender, EventArgs e)
+        {
+            if (txtRestoreDestination.Text == string.Empty)
+            {
+                btnBrowseDestiation_Click(null, EventArgs.Empty);
             }
         }
     }

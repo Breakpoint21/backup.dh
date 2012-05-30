@@ -79,6 +79,7 @@
             this.txtRestoreDestination.Name = "txtRestoreDestination";
             this.txtRestoreDestination.Size = new System.Drawing.Size(300, 20);
             this.txtRestoreDestination.TabIndex = 3;
+            this.txtRestoreDestination.Click += new System.EventHandler(this.txtRestoreDestination_Click);
             // 
             // btnBrowseDestiation
             // 
@@ -121,6 +122,7 @@
             this.txtRestoreSource.Name = "txtRestoreSource";
             this.txtRestoreSource.Size = new System.Drawing.Size(300, 20);
             this.txtRestoreSource.TabIndex = 7;
+            this.txtRestoreSource.Click += new System.EventHandler(this.txtRestoreSource_Click);
             // 
             // label1
             // 

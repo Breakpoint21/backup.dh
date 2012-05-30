@@ -34,6 +34,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pgbStatus = new System.Windows.Forms.ToolStripProgressBar();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.menuButtonBack = new System.Windows.Forms.ToolStripButton();
@@ -41,14 +42,14 @@
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.txtSearch = new System.Windows.Forms.ToolStripTextBox();
             this.startBackupLabel = new System.Windows.Forms.ToolStripLabel();
+            this.btnStartBackup = new System.Windows.Forms.ToolStripButton();
             this.btnRestore = new System.Windows.Forms.ToolStripButton();
             this.backupWorker = new System.ComponentModel.BackgroundWorker();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.lblBackupDestination = new System.Windows.Forms.ToolStripLabel();
             this.txtBackupDestination = new System.Windows.Forms.ToolStripTextBox();
             this.btnBrowse = new System.Windows.Forms.ToolStripButton();
-            this.btnStartBackup = new System.Windows.Forms.ToolStripButton();
-            this.pgbStatus = new System.Windows.Forms.ToolStripProgressBar();
+            this.cbxFilter = new System.Windows.Forms.ToolStripComboBox();
             this.explorer1 = new Backup.Gui.Explorer();
             this.explorerList1 = new Backup.Gui.ExplorerList();
             this.menuStrip1.SuspendLayout();
@@ -75,13 +76,13 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // statusStrip1
@@ -98,8 +99,13 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(66, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(63, 17);
             this.toolStripStatusLabel1.Text = "Image Size:";
+            // 
+            // pgbStatus
+            // 
+            this.pgbStatus.Name = "pgbStatus";
+            this.pgbStatus.Size = new System.Drawing.Size(100, 16);
             // 
             // splitContainer1
             // 
@@ -125,6 +131,7 @@
             this.menuButtonBack,
             this.toolStripButton2,
             this.toolStripComboBox1,
+            this.cbxFilter,
             this.txtSearch,
             this.startBackupLabel,
             this.btnStartBackup,
@@ -168,6 +175,7 @@
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(100, 23);
             this.txtSearch.Text = "Search...";
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
             // startBackupLabel
             // 
@@ -175,6 +183,16 @@
             this.startBackupLabel.Size = new System.Drawing.Size(31, 22);
             this.startBackupLabel.Text = "Start";
             this.startBackupLabel.Click += new System.EventHandler(this.startBackupLabel_Click);
+            // 
+            // btnStartBackup
+            // 
+            this.btnStartBackup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnStartBackup.Image = ((System.Drawing.Image)(resources.GetObject("btnStartBackup.Image")));
+            this.btnStartBackup.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnStartBackup.Name = "btnStartBackup";
+            this.btnStartBackup.Size = new System.Drawing.Size(23, 22);
+            this.btnStartBackup.Text = "Start Backup";
+            this.btnStartBackup.Click += new System.EventHandler(this.startBackupLabel_Click);
             // 
             // btnRestore
             // 
@@ -208,7 +226,7 @@
             // lblBackupDestination
             // 
             this.lblBackupDestination.Name = "lblBackupDestination";
-            this.lblBackupDestination.Size = new System.Drawing.Size(70, 22);
+            this.lblBackupDestination.Size = new System.Drawing.Size(65, 22);
             this.lblBackupDestination.Text = "Destination:";
             // 
             // txtBackupDestination
@@ -226,20 +244,19 @@
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
-            // btnStartBackup
+            // cbxFilter
             // 
-            this.btnStartBackup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnStartBackup.Image = ((System.Drawing.Image)(resources.GetObject("btnStartBackup.Image")));
-            this.btnStartBackup.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnStartBackup.Name = "btnStartBackup";
-            this.btnStartBackup.Size = new System.Drawing.Size(23, 22);
-            this.btnStartBackup.Text = "Start Backup";
-            this.btnStartBackup.Click += new System.EventHandler(this.startBackupLabel_Click);
-            // 
-            // pgbStatus
-            // 
-            this.pgbStatus.Name = "pgbStatus";
-            this.pgbStatus.Size = new System.Drawing.Size(100, 16);
+            this.cbxFilter.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.cbxFilter.DropDownWidth = 75;
+            this.cbxFilter.Items.AddRange(new object[] {
+            "Name",
+            "Dateiendung",
+            "Regex",
+            "Name genau",
+            "Dateiendung genau",
+            "Regex genau"});
+            this.cbxFilter.Name = "cbxFilter";
+            this.cbxFilter.Size = new System.Drawing.Size(75, 25);
             // 
             // explorer1
             // 
@@ -251,6 +268,7 @@
             // 
             // explorerList1
             // 
+            this.explorerList1.CurrentDir = null;
             this.explorerList1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.explorerList1.Location = new System.Drawing.Point(0, 0);
             this.explorerList1.Name = "explorerList1";
@@ -314,5 +332,6 @@
         private System.Windows.Forms.ToolStripButton btnRestore;
         private System.Windows.Forms.ToolStripButton btnStartBackup;
         private System.Windows.Forms.ToolStripProgressBar pgbStatus;
+        private System.Windows.Forms.ToolStripComboBox cbxFilter;
     }
 }

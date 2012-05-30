@@ -126,5 +126,15 @@ namespace Backup.Gui
             pgbStatus.Value = 0;
         }
 
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SearchController srchCtrl = new SearchController();
+                List<ExplorerListItem> matches = srchCtrl.Search(explorerList1.CurrentDir, txtSearch.Text ,(SearchController.SearchModus)cbxFilter.SelectedIndex);
+                explorerList1.fillListView(matches);
+            }
+        }
+
     }
 }

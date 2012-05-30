@@ -33,11 +33,12 @@
             this.lblDestination = new System.Windows.Forms.Label();
             this.txtRestoreDestination = new System.Windows.Forms.TextBox();
             this.btnBrowseDestiation = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.restoreFilesListView = new System.Windows.Forms.ListView();
             this.btnBrowseSource = new System.Windows.Forms.Button();
             this.txtRestoreSource = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnStartRestore = new System.Windows.Forms.Button();
+            this.File = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // rdbCompleteBackup
@@ -61,6 +62,7 @@
             this.rdbSelectedBackup.TabIndex = 1;
             this.rdbSelectedBackup.Text = "Select Files";
             this.rdbSelectedBackup.UseVisualStyleBackColor = true;
+            this.rdbSelectedBackup.CheckedChanged += new System.EventHandler(this.rdbSelectedBackup_CheckedChanged);
             // 
             // lblDestination
             // 
@@ -77,6 +79,7 @@
             this.txtRestoreDestination.Name = "txtRestoreDestination";
             this.txtRestoreDestination.Size = new System.Drawing.Size(300, 20);
             this.txtRestoreDestination.TabIndex = 3;
+            this.txtRestoreDestination.Click += new System.EventHandler(this.txtRestoreDestination_Click);
             // 
             // btnBrowseDestiation
             // 
@@ -88,17 +91,20 @@
             this.btnBrowseDestiation.UseVisualStyleBackColor = true;
             this.btnBrowseDestiation.Click += new System.EventHandler(this.btnBrowseDestiation_Click);
             // 
-            // listView1
+            // restoreFilesListView
             // 
-            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.restoreFilesListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView1.Enabled = false;
-            this.listView1.Location = new System.Drawing.Point(13, 106);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(561, 192);
-            this.listView1.TabIndex = 5;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.restoreFilesListView.CheckBoxes = true;
+            this.restoreFilesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.File});
+            this.restoreFilesListView.Enabled = false;
+            this.restoreFilesListView.Location = new System.Drawing.Point(13, 106);
+            this.restoreFilesListView.Name = "restoreFilesListView";
+            this.restoreFilesListView.Size = new System.Drawing.Size(561, 192);
+            this.restoreFilesListView.TabIndex = 5;
+            this.restoreFilesListView.UseCompatibleStateImageBehavior = false;
+            this.restoreFilesListView.View = System.Windows.Forms.View.Details;
             // 
             // btnBrowseSource
             // 
@@ -116,6 +122,7 @@
             this.txtRestoreSource.Name = "txtRestoreSource";
             this.txtRestoreSource.Size = new System.Drawing.Size(300, 20);
             this.txtRestoreSource.TabIndex = 7;
+            this.txtRestoreSource.Click += new System.EventHandler(this.txtRestoreSource_Click);
             // 
             // label1
             // 
@@ -136,6 +143,10 @@
             this.btnStartRestore.UseVisualStyleBackColor = true;
             this.btnStartRestore.Click += new System.EventHandler(this.btnStartRestore_Click);
             // 
+            // File
+            // 
+            this.File.Width = 382;
+            // 
             // RestoreBackup
             // 
             this.AllowDrop = true;
@@ -146,7 +157,7 @@
             this.Controls.Add(this.btnBrowseSource);
             this.Controls.Add(this.txtRestoreSource);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.restoreFilesListView);
             this.Controls.Add(this.btnBrowseDestiation);
             this.Controls.Add(this.txtRestoreDestination);
             this.Controls.Add(this.lblDestination);
@@ -168,10 +179,11 @@
         private System.Windows.Forms.Label lblDestination;
         private System.Windows.Forms.TextBox txtRestoreDestination;
         private System.Windows.Forms.Button btnBrowseDestiation;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView restoreFilesListView;
         private System.Windows.Forms.Button btnBrowseSource;
         private System.Windows.Forms.TextBox txtRestoreSource;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnStartRestore;
+        private System.Windows.Forms.ColumnHeader File;
     }
 }

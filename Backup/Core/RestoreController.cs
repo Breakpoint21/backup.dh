@@ -43,8 +43,20 @@ namespace Backup.Core
             RestoreBuilder builder = new RestoreBuilder();
             if (RestoreDestination != null && BackupFile != null)
             {
+                //builder.createIndex(BackupFile.FullName);
                 builder.RestoreBackup(BackupFile.FullName, RestoreDestination);
             }
+        }
+
+        internal List<string> BuildIndex()
+        {
+            List<string> ret = new List<string>();
+            RestoreBuilder builder = new RestoreBuilder();
+            if (BackupFile != null)
+            {
+                ret = builder.createIndex(BackupFile.FullName);
+            }
+            return ret;
         }
     }
 }

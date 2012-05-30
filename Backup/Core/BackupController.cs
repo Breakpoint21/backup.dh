@@ -67,7 +67,11 @@ namespace Backup.Core
                 backupFiles.Add(file.FileIn);
             }
             builder.Worker = worker;
-            builder.BuildBackup(backupFiles, Destination);
+            if (Destination != null)
+            {
+                builder.BuildBackup(backupFiles, Destination);    
+            }
+            
         }
     }
 }

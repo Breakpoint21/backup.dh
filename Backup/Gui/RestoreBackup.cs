@@ -25,8 +25,10 @@ namespace Backup.Gui
         public string SourcePath
         {
             get { return sourcePath; }
-            set { sourcePath = value;
-            this.txtRestoreSource.Text = sourcePath;
+            set 
+            { 
+                sourcePath = value;
+                this.txtRestoreSource.Text = sourcePath;
             }
         }
         private string destinationPath;
@@ -34,8 +36,10 @@ namespace Backup.Gui
         public string DestinationPath
         {
             get { return destinationPath; }
-            set { destinationPath = value;
-            this.txtRestoreDestination.Text = destinationPath;
+            set 
+            { 
+                destinationPath = value;
+                this.txtRestoreDestination.Text = destinationPath;
             }
         }
 
@@ -56,6 +60,15 @@ namespace Backup.Gui
             {
                 Controller.BackupFile = new FileInfo(dia.FileName);
                 this.SourcePath = dia.FileName;
+                FillListView(Controller.BuildIndex());
+            }
+        }
+
+        private void FillListView(List<string> list)
+        {
+            foreach (string file in list)
+            {
+                restoreFilesListView.Items.Add(new ListViewItem(file));
             }
         }
 
@@ -75,6 +88,35 @@ namespace Backup.Gui
         private void btnStartRestore_Click(object sender, EventArgs e)
         {
             Controller.RestoreBackup();
+        }
+
+        private void rdbSelectedBackup_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton button = sender as RadioButton;
+            if (button.Checked)
+            {
+                restoreFilesListView.Enabled = true;
+            }
+            else
+            {
+                restoreFilesListView.Enabled = false;
+            }
+        }
+
+        private void txtRestoreSource_Click(object sender, EventArgs e)
+        {
+            if (txtRestoreSource.Text == string.Empty)
+            {
+                btnBrowseSource_Click(null, EventArgs.Empty);
+            }
+        }
+
+        private void txtRestoreDestination_Click(object sender, EventArgs e)
+        {
+            if (txtRestoreDestination.Text == string.Empty)
+            {
+                btnBrowseDestiation_Click(null, EventArgs.Empty);
+            }
         }
 
         private void RestoreBackup_DragEnter(object sender, DragEventArgs e)

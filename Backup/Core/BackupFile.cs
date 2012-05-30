@@ -59,11 +59,20 @@ namespace Backup.Core
             DateCreated = Encoding.Unicode.GetBytes(fileInfo.CreationTime.ToString());
             DateEdit = Encoding.Unicode.GetBytes(fileInfo.LastWriteTime.ToString());
             Data = new byte[(int)fileInfo.Length];
-            using (FileStream reader = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
+            try
             {
-                reader.Read(Data, 0, (int)fileInfo.Length);
-                reader.Close();
+                using (FileStream reader = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
+                {
+                    reader.Read(Data, 0, (int)fileInfo.Length);
+                    reader.Close();
+                }
             }
+            catch (IOException ex)
+            {
+                Logger.Log(ex.Message, Logger.Level.ERROR);
+                return;
+            }
+            
             NameLength = BitConverter.GetBytes(Name.Length);
             AttributesLength = BitConverter.GetBytes(Attributes.Length);
             SizeLength = BitConverter.GetBytes(Size.Length);
@@ -110,8 +119,17 @@ namespace Backup.Core
             reader.Read(Data, 0, Data.Length);
 
             string fileName = Path.GetFileName(Encoding.Unicode.GetString(Name));
+            string[] directorys = Encoding.Unicode.GetString(Name).Split(Path.DirectorySeparatorChar);
+            DirectoryInfo newDir = dest;
+            foreach (string dir in directorys)
+            {
+                if (dir != directorys[0] && dir != fileName)
+                {
+                    newDir = newDir.CreateSubdirectory(dir);
+                }
+            }
 
-            FileInfo file = new FileInfo(dest.FullName + Path.DirectorySeparatorChar + fileName);
+            FileInfo file = new FileInfo(newDir.FullName + Path.DirectorySeparatorChar + fileName);
             using (FileStream writer = new FileStream(file.FullName, FileMode.Create, FileAccess.ReadWrite))
             {
                 writer.Write(Data, 0, Data.Length);

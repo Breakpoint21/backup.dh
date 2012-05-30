@@ -118,5 +118,31 @@ namespace Backup.Gui
                 btnBrowseDestiation_Click(null, EventArgs.Empty);
             }
         }
+
+        private void RestoreBackup_DragEnter(object sender, DragEventArgs e)
+        {
+            string[] fileNames = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (fileNames.Length > 0)
+            {
+                FileInfo backupFile = new FileInfo(fileNames[0]);
+                if (backupFile.Extension == ".dhbw")
+                {
+                    e.Effect = DragDropEffects.Copy;
+                }
+            }
+        }
+
+        private void RestoreBackup_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] fileNames = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (fileNames.Length > 0)
+            {
+                FileInfo backupFile = new FileInfo(fileNames[0]);
+                if (backupFile.Extension == ".dhbw")
+                {
+                    this.SourcePath = backupFile.FullName;
+                }
+            }
+        }
     }
 }

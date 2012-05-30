@@ -82,6 +82,9 @@
     <Compile Include="Gui\ExplorerList.Designer.cs">
       <DependentUpon>ExplorerList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gui\ExplorerListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Gui\RestoreBackup.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -94,7 +94,6 @@ namespace Backup.Core
 			using (GZipStream zip = new GZipStream(outFile, CompressionMode.Compress))
 			{
                 byte[] block = new byte[inFile.Length/100];
-				int progress = 1;
 
 				while (inFile.Position < inFile.Length)
 				{

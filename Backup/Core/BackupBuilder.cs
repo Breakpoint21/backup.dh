@@ -6,6 +6,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Diagnostics;
 using System.ComponentModel;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace Backup.Core
 {
@@ -13,6 +15,13 @@ namespace Backup.Core
 	{
 		private FileInfo destination;
 		private BackgroundWorker worker;
+        private List<FileInfo> filesToBackup;
+
+        public List<FileInfo> FilesToBackup
+        {
+            get { return filesToBackup; }
+            set { filesToBackup = value; }
+        }
 
 		public BackgroundWorker Worker
 		{
@@ -35,6 +44,7 @@ namespace Backup.Core
 
 		public void BuildBackup(List<FileInfo> files, FileInfo destination)
 		{
+            FilesToBackup = files;
 			Stopwatch watch = new Stopwatch();
 			watch.Start();
 			Destination = destination;
@@ -105,6 +115,16 @@ namespace Backup.Core
 						Worker.ReportProgress((int) (((double)inFile.Position/(double)inFile.Length)*100));
 					}
 				}
+                //BinaryFormatter formatter = new BinaryFormatter();
+                //try
+                //{
+                //    formatter.Serialize(zip, FilesToBackup);
+                //}
+                //catch (SerializationException e)
+                //{
+                //    Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                //    throw;
+                //}
 				zip.Close();
 			}
 			inFile.Close();

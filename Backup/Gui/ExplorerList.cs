@@ -15,6 +15,13 @@ namespace Backup.Gui
     {
         private ExplorerListView exListView;
         private ListViewColumnSorter lstviewSorter;
+        private DirectoryInfo currentDir;
+
+        public DirectoryInfo CurrentDir
+        {
+            get { return currentDir; }
+            set { currentDir = value; }
+        }
 
         public ExplorerListView ExListView
         {
@@ -46,6 +53,7 @@ namespace Backup.Gui
 
         public void fillListView(DirectoryInfo selectedDir)
         {
+            CurrentDir = selectedDir;
             explorerListView.View = View.Details;
             imageList1.ImageSize = new Size(16, 16);
             explorerListView.CheckBoxes = true;
@@ -119,6 +127,15 @@ namespace Backup.Gui
             //{
             //    fillListView(sel.DirInfo);
             //}
+        }
+
+        internal void fillListView(List<ExplorerListItem> matches)
+        {
+            explorerListView.Items.Clear();
+            foreach (ExplorerListItem item in matches)
+            {
+                explorerListView.Items.Add(item);
+            }
         }
     }
 }

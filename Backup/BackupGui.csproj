@@ -57,6 +57,7 @@
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\RestoreBuilder.cs" />
     <Compile Include="Core\RestoreController.cs" />
+    <Compile Include="Core\SearchController.cs" />
     <Compile Include="Core\SizeFormatProvider.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

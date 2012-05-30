@@ -6,6 +6,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace Backup.Core
 {
@@ -39,11 +41,11 @@ namespace Backup.Core
             tempFile.Delete();
         }
 
-        public List<string> createIndex(string path)
+        public Dictionary<FileInfo, long> createIndex(string path)
         {
+            Dictionary<FileInfo, long> files = null;
             Stopwatch watch = new Stopwatch();
             watch.Start();
-            List<string> ret = new List<string>();
             header = new byte[8];
             FileStream reader = new FileStream(path, FileMode.Open, FileAccess.Read);
             using (GZipStream zipStream = new GZipStream(reader, CompressionMode.Decompress))
@@ -51,46 +53,32 @@ namespace Backup.Core
                 zipStream.Read(header, 0, header.Length);
                 manifest = new byte[BitConverter.ToInt32(header, 4)];
                 zipStream.Read(manifest, 0, manifest.Length);
-                List<int> contents = new List<int>();
-                for (int i = 0; i < BitConverter.ToInt32(header, 0); i++)
+                
+                using (MemoryStream memStr = new MemoryStream(manifest))
                 {
-                    byte[] id = new byte[72];
-                    byte[] size = new byte[4];
-                    System.Buffer.BlockCopy(manifest, i*76, id, 0, id.Length);
-                    System.Buffer.BlockCopy(manifest, i*76+72, size, 0, size.Length);
-                    contents.Add(BitConverter.ToInt32(size, 0));
-                }
-
-                foreach (int length in contents)
-                {
-                    byte[] nameLength = new byte[4];
-                    byte[] trash = new byte[1024];
-                    zipStream.Read(trash, 0, 72);
-                    zipStream.Read(nameLength, 0, nameLength.Length);
-                    byte[] name = new byte[BitConverter.ToInt32(nameLength, 0)];
-                    zipStream.Read(trash, 0, 20);
-                    zipStream.Read(name, 0, name.Length);
-                    ret.Add(Encoding.Unicode.GetString(name));
-                    int notNeededBytes = length - (20 + 72 + nameLength.Length + name.Length);
-                    int counter = (notNeededBytes + trash.Length - 1) / trash.Length;
-                    for (int i = 0; i < counter; i++)
+                    memStr.Write(manifest, 0, manifest.Length);
+                    memStr.Seek(0, SeekOrigin.Begin);
+                    try
                     {
-                        if (i == counter - 1)
-                        {
-                            zipStream.Read(trash, 0, (length-(i*trash.Length))-(20+72+nameLength.Length+name.Length));
-                        }
-                        else
-                        {
-                            zipStream.Read(trash, 0, trash.Length);
-                        }
+                        BinaryFormatter formatter = new BinaryFormatter();
+
+                        files = (Dictionary<FileInfo, long>)formatter.Deserialize(memStr);
                     }
-                    
+                    catch (SerializationException e)
+                    {
+                        Logger.Log(e.Message, Logger.Level.ERROR);
+                    }
+                    finally
+                    {
+                        memStr.Close();
+                    }
                 }
                 zipStream.Close();
             }
             watch.Stop();
-            Logger.Log("Creating Index with " + ret.Count + " Items took: " + watch.ElapsedMilliseconds + "ms", Logger.Level.DIAGNOSTIC);
-            return ret;
+            Logger.Log("Creating Index with " + files.Count + " Items took: " + watch.ElapsedMilliseconds + "ms", Logger.Level.DIAGNOSTIC);
+            
+            return files;
         }
 
         private FileInfo Decompress(string path)
@@ -114,6 +102,37 @@ namespace Backup.Core
             watch.Stop();
             Logger.Log("Decompress file took: " + watch.ElapsedMilliseconds + "ms (" + (zipFile.Length/1024) + " bytes)", Logger.Level.DIAGNOSTIC);
             return tempFile;
+        }
+
+        internal void RestoreSelectedFiles(FileInfo BackupFile, DirectoryInfo RestoreDestination, Dictionary<FileInfo, long> SelectedFiles)
+        {
+            Dictionary<FileInfo, long> index = createIndex(BackupFile.FullName);
+            Dictionary<string, long> offsetIndex = new Dictionary<string, long>();
+            long offset = 0;
+            foreach (KeyValuePair<FileInfo, long> item in index)
+            {
+                offsetIndex.Add(item.Key.Name, offset);
+                offset += item.Value;
+            }
+            FileInfo tempFile = Decompress(BackupFile.FullName);
+            header = new byte[8];
+            using (FileStream reader = new FileStream(tempFile.FullName, FileMode.Open, FileAccess.Read))
+            {
+                reader.Read(header, 0, 8);
+                manifest = new byte[BitConverter.ToInt32(header, 4)];
+                reader.Read(manifest, 0, manifest.Length);
+                foreach (KeyValuePair<FileInfo, long> file in SelectedFiles)
+                {
+                    long pos = offsetIndex[file.Key.Name];
+                    //reader.Position = header.Length + manifest.Length + pos;
+                    reader.Seek((header.Length + manifest.Length + pos), SeekOrigin.Begin);
+                    BackupFile f = new BackupFile();
+                    f.restore(reader, RestoreDestination);
+                }
+
+                reader.Close();
+            }
+            tempFile.Delete();
         }
     }
 }

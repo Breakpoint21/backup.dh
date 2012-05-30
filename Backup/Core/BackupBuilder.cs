@@ -49,23 +49,16 @@ namespace Backup.Core
 			watch.Start();
 			Destination = destination;
 			List<BackupFile> byteFiles = new List<BackupFile>();
-			
+            
 			foreach (FileInfo file in files)
 			{
 				BackupFile f = new BackupFile();
-				Console.WriteLine(Process.GetCurrentProcess().PrivateMemorySize64);
 				f.BuildFile(file);
 				byteFiles.Add(f);
 			}
-
+            manifest = buildManifest(files, byteFiles);
 			string tempFile = Path.GetTempFileName();
-			manifest = new byte[byteFiles.Count * 76];
-			for (int i = 0; i < byteFiles.Count; i++)                
-			{
-				BackupFile byteFile = byteFiles[i];
-				System.Buffer.BlockCopy(byteFile.GUID, 0, manifest, i*76, byteFile.GUID.Length);
-				System.Buffer.BlockCopy(BitConverter.GetBytes(byteFile.Length), 0, manifest, (i*76)+72, 4);
-			}
+            //Header = 4Byte Number of Files 4Byte Size of Manifest -> 8Byte
 			header = new byte[8];
 			System.Buffer.BlockCopy(BitConverter.GetBytes(byteFiles.Count), 0, header, 0, 4);
 			System.Buffer.BlockCopy(BitConverter.GetBytes(manifest.Length), 0, header, 4, 4);
@@ -81,10 +74,6 @@ namespace Backup.Core
 					{
 						fs.Write(item, 0, item.Length);
 					}
-					//if (Worker != null)
-					//{
-					//    Worker.ReportProgress((int)100 /byteFiles.Count);
-					//}
 				}
 				fs.Close();
 				Console.WriteLine(Process.GetCurrentProcess().PrivateMemorySize64);
@@ -93,6 +82,33 @@ namespace Backup.Core
 			Logger.Log("Build Temp file took: " + watch.ElapsedMilliseconds + "ms", Logger.Level.DIAGNOSTIC);
 			Compress(tempFile);
 		}
+
+        private byte[] buildManifest(List<FileInfo> files, List<BackupFile> byteFiles)
+        {
+            byte[] ret;
+            Dictionary<FileInfo, long> manifest = new Dictionary<FileInfo, long>();
+            for (int i = 0; i < files.Count; i++)
+            {
+                manifest.Add(files[i], byteFiles[i].Length);
+            }
+            using (MemoryStream memStr = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                try
+                {
+                    formatter.Serialize(memStr, manifest);
+                }
+                catch (SerializationException e)
+                {
+                    Logger.Log(e.Message, Logger.Level.ERROR);
+                }
+                ret = new byte[memStr.Length];
+                memStr.Seek(0, SeekOrigin.Begin);
+                memStr.Read(ret, 0, ret.Length);
+                memStr.Close();
+            }
+            return ret;
+        }
 
 		private void Compress(string tempFile)
 		{
@@ -114,16 +130,6 @@ namespace Backup.Core
 						Worker.ReportProgress((int) (((double)inFile.Position/(double)inFile.Length)*100));
 					}
 				}
-                //BinaryFormatter formatter = new BinaryFormatter();
-                //try
-                //{
-                //    formatter.Serialize(zip, FilesToBackup);
-                //}
-                //catch (SerializationException e)
-                //{
-                //    Console.WriteLine("Failed to serialize. Reason: " + e.Message);
-                //    throw;
-                //}
 				zip.Close();
 			}
 			inFile.Close();

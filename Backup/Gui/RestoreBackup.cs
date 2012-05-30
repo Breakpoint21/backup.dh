@@ -64,11 +64,12 @@ namespace Backup.Gui
             }
         }
 
-        private void FillListView(List<string> list)
+        private void FillListView(Dictionary<FileInfo, long> list)
         {
-            foreach (string file in list)
+            restoreFilesListView.Items.Clear();
+            foreach (KeyValuePair<FileInfo, long> file in list)
             {
-                restoreFilesListView.Items.Add(new ListViewItem(file));
+                restoreFilesListView.Items.Add(new RestoreListItem(file));
             }
         }
 
@@ -87,7 +88,14 @@ namespace Backup.Gui
 
         private void btnStartRestore_Click(object sender, EventArgs e)
         {
-            Controller.RestoreBackup();
+            if (rdbCompleteBackup.Checked)
+            {
+                Controller.RestoreBackup();
+            }
+            else
+            {
+                Controller.RestoreSelectedFiles();
+            }
         }
 
         private void rdbSelectedBackup_CheckedChanged(object sender, EventArgs e)
@@ -141,6 +149,22 @@ namespace Backup.Gui
                 if (backupFile.Extension == ".dhbw")
                 {
                     this.SourcePath = backupFile.FullName;
+                }
+            }
+        }
+
+        private void restoreFilesListView_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            RestoreListItem item = e.Item as RestoreListItem;
+            if (item != null)
+            {
+                if (item.Checked)
+                {
+                    Controller.SelectedFiles.Add(item.BackupFile, item.FileSize);
+                }
+                else
+                {
+                    Controller.SelectedFiles.Remove(item.BackupFile);
                 }
             }
         }

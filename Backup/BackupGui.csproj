@@ -57,6 +57,7 @@
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\RestoreBuilder.cs" />
     <Compile Include="Core\RestoreController.cs" />
+    <Compile Include="Core\RestoreListItem.cs" />
     <Compile Include="Core\SearchController.cs" />
     <Compile Include="Core\SizeFormatProvider.cs" />
     <Compile Include="Form1.cs">
@@ -98,6 +99,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Gui\DHBWBackup.de.resx">
+      <DependentUpon>DHBWBackup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Gui\DHBWBackup.resx">
       <DependentUpon>DHBWBackup.cs</DependentUpon>
     </EmbeddedResource>
@@ -106,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\ExplorerList.resx">
       <DependentUpon>ExplorerList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\RestoreBackup.de.resx">
+      <DependentUpon>RestoreBackup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\RestoreBackup.resx">
       <DependentUpon>RestoreBackup.cs</DependentUpon>

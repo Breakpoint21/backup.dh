@@ -86,7 +86,6 @@ namespace Backup.Core
             }
             
             this.SubItems.Add(file.LastWriteTime.ToShortDateString());
-            //this.SubItems.Add(dirInfo.Name);
         }
     }
 }

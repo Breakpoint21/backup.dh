@@ -125,6 +125,7 @@ namespace Backup.Gui
         private void backupWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             pgbStatus.Value = 0;
+            MessageBox.Show("Backup Finished", "Summary", MessageBoxButtons.OK);
         }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)

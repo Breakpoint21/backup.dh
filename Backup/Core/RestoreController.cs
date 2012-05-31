@@ -10,6 +10,13 @@ namespace Backup.Core
     {
         private static RestoreController instance;
         private FileInfo backupFile;
+        private Dictionary<FileInfo, long> selectedFiles = new Dictionary<FileInfo,long>();
+
+        public Dictionary<FileInfo, long> SelectedFiles
+        {
+            get { return selectedFiles; }
+            set { selectedFiles = value; }
+        }
 
         public FileInfo BackupFile
         {
@@ -43,20 +50,28 @@ namespace Backup.Core
             RestoreBuilder builder = new RestoreBuilder();
             if (RestoreDestination != null && BackupFile != null)
             {
-                //builder.createIndex(BackupFile.FullName);
                 builder.RestoreBackup(BackupFile.FullName, RestoreDestination);
             }
         }
 
-        internal List<string> BuildIndex()
+        internal Dictionary<FileInfo, long> BuildIndex()
         {
-            List<string> ret = new List<string>();
+            Dictionary<FileInfo, long> ret = new Dictionary<FileInfo, long>();
             RestoreBuilder builder = new RestoreBuilder();
             if (BackupFile != null)
             {
                 ret = builder.createIndex(BackupFile.FullName);
             }
             return ret;
+        }
+
+        internal void RestoreSelectedFiles()
+        {
+            RestoreBuilder builder = new RestoreBuilder();
+            if (BackupFile != null && RestoreDestination != null)
+            {
+                builder.RestoreSelectedFiles(BackupFile, RestoreDestination, SelectedFiles);
+            }
         }
     }
 }

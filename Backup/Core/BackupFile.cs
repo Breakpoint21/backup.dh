@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using System.IO.Compression;
 
 namespace Backup.Core
 {
@@ -70,7 +71,6 @@ namespace Backup.Core
             catch (IOException ex)
             {
                 Logger.Log(ex.Message, Logger.Level.ERROR);
-                return;
             }
             
             NameLength = BitConverter.GetBytes(Name.Length);
@@ -121,6 +121,50 @@ namespace Backup.Core
             string fileName = Path.GetFileName(Encoding.Unicode.GetString(Name));
             string[] directorys = Encoding.Unicode.GetString(Name).Split(Path.DirectorySeparatorChar);
             DirectoryInfo newDir = dest;
+            foreach (string dir in directorys)
+            {
+                if (dir != directorys[0] && dir != fileName)
+                {
+                    newDir = newDir.CreateSubdirectory(dir);
+                }
+            }
+
+            FileInfo file = new FileInfo(newDir.FullName + Path.DirectorySeparatorChar + fileName);
+            using (FileStream writer = new FileStream(file.FullName, FileMode.Create, FileAccess.ReadWrite))
+            {
+                writer.Write(Data, 0, Data.Length);
+                writer.Close();
+            }
+            file.Attributes = (FileAttributes)int.Parse(Encoding.Unicode.GetString(Attributes));
+            file.CreationTime = DateTime.Parse(Encoding.Unicode.GetString(DateCreated));
+            file.LastWriteTime = DateTime.Parse(Encoding.Unicode.GetString(DateEdit));
+        }
+
+        internal void restore(GZipStream reader, DirectoryInfo RestoreDestination)
+        {
+            reader.Read(GUID, 0, GUID.Length);
+            reader.Read(NameLength, 0, NameLength.Length);
+            reader.Read(AttributesLength, 0, AttributesLength.Length);
+            reader.Read(SizeLength, 0, SizeLength.Length);
+            reader.Read(DateCreatedLength, 0, DateCreatedLength.Length);
+            reader.Read(DateEditLength, 0, DateEditLength.Length);
+            reader.Read(DataLength, 0, DataLength.Length);
+            Name = new byte[BitConverter.ToInt32(NameLength, 0)];
+            Attributes = new byte[BitConverter.ToInt32(AttributesLength, 0)];
+            Size = new byte[BitConverter.ToInt32(SizeLength, 0)];
+            DateCreated = new byte[BitConverter.ToInt32(DateCreatedLength, 0)];
+            DateEdit = new byte[BitConverter.ToInt32(DateEditLength, 0)];
+            Data = new byte[BitConverter.ToInt32(DataLength, 0)];
+            reader.Read(Name, 0, Name.Length);
+            reader.Read(Attributes, 0, Attributes.Length);
+            reader.Read(Size, 0, Size.Length);
+            reader.Read(DateCreated, 0, DateCreated.Length);
+            reader.Read(DateEdit, 0, DateEdit.Length);
+            reader.Read(Data, 0, Data.Length);
+
+            string fileName = Path.GetFileName(Encoding.Unicode.GetString(Name));
+            string[] directorys = Encoding.Unicode.GetString(Name).Split(Path.DirectorySeparatorChar);
+            DirectoryInfo newDir = RestoreDestination;
             foreach (string dir in directorys)
             {
                 if (dir != directorys[0] && dir != fileName)

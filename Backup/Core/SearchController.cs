@@ -50,9 +50,9 @@ namespace Backup.Core
 
         private List<ExplorerListItem> MatchExtension(DirectoryInfo selectedDir, string searchExpression)
         {
+            FetchingService fetch = new FetchingService();
             List<ExplorerListItem> ret = new List<ExplorerListItem>();
-            FileInfo[] files = selectedDir.GetFiles();
-            foreach (FileInfo file in files)
+            foreach (FileInfo file in fetch.FetchFiles(selectedDir))
             {
                 if (file.Extension == searchExpression)
                 {
@@ -65,17 +65,16 @@ namespace Backup.Core
 
         private List<ExplorerListItem> MatchName(DirectoryInfo selectedDir, string searchExpression)
         {
+            FetchingService fetch = new FetchingService();
             List<ExplorerListItem> ret = new List<ExplorerListItem>();
-            FileInfo[] files = selectedDir.GetFiles();
-            foreach (FileInfo file in files)
+            foreach (FileInfo file in fetch.FetchFiles(selectedDir))
             {
                 if (file.Name == searchExpression)
                 {
                     ret.Add(new ExplorerListItem(file));
                 }
             }
-            DirectoryInfo[] dirs = selectedDir.GetDirectories();
-            foreach (DirectoryInfo dir in dirs)
+            foreach (DirectoryInfo dir in fetch.FetchDirectories(selectedDir))
             {
                 if (dir.Name == searchExpression)
                 {
@@ -87,9 +86,9 @@ namespace Backup.Core
 
         private List<ExplorerListItem> SearchByRegex(DirectoryInfo selectedDir, string searchExpression)
         {
+            FetchingService fetch = new FetchingService();
             List<ExplorerListItem> ret = new List<ExplorerListItem>();
-            FileInfo[] files = selectedDir.GetFiles();
-            foreach (FileInfo file in files)
+            foreach (FileInfo file in fetch.FetchFiles(selectedDir))
             {
                 bool contains = false;
                 if (Regex.IsMatch(file.Name, searchExpression))
@@ -109,8 +108,7 @@ namespace Backup.Core
                     ret.Add(new ExplorerListItem(file));
                 }
             }
-            DirectoryInfo[] dirs = selectedDir.GetDirectories();
-            foreach (DirectoryInfo dir in dirs)
+            foreach (DirectoryInfo dir in fetch.FetchDirectories(selectedDir))
             {
                 bool contains = false;
                 if (Regex.IsMatch(dir.Name, searchExpression))
@@ -135,9 +133,9 @@ namespace Backup.Core
 
         private List<ExplorerListItem> SearchByExtension(DirectoryInfo selectedDir, string searchExpression)
         {
+            FetchingService fetch = new FetchingService();
             List<ExplorerListItem> ret = new List<ExplorerListItem>();
-            FileInfo[] files = selectedDir.GetFiles();
-            foreach (FileInfo file in files)
+            foreach (FileInfo file in fetch.FetchFiles(selectedDir))
             {
                 if (file.Extension.Contains(searchExpression))
                 {
@@ -149,9 +147,9 @@ namespace Backup.Core
 
         private List<ExplorerListItem> SearchByName(DirectoryInfo selectedDir, string searchExpression)
         {
+            FetchingService fetch = new FetchingService();
             List<ExplorerListItem> ret = new List<ExplorerListItem>();
-            FileInfo[] files = selectedDir.GetFiles();
-            foreach (FileInfo file in files)
+            foreach (FileInfo file in fetch.FetchFiles(selectedDir))
             {
                 if (file.Name.Contains(searchExpression))
                 {
@@ -159,7 +157,7 @@ namespace Backup.Core
                 }
             }
             DirectoryInfo[] dirs = selectedDir.GetDirectories();
-            foreach (DirectoryInfo dir in dirs)
+            foreach (DirectoryInfo dir in fetch.FetchDirectories(selectedDir))
             {
                 if (dir.Name.Contains(searchExpression))
                 {

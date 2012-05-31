@@ -25,6 +25,7 @@ namespace Backup.Gui
         {
             Controller = BackupController.getInstance();
             InitializeComponent();
+            this.cbxFilter.SelectedIndex = 0;
             this.explorer1.ExplorerTreeV.NodeMouseClick += new TreeNodeMouseClickEventHandler(this.ExplorerTreeV_NodeMouseClick);
             this.explorerList1.ExListView.ItemChecked += new ItemCheckedEventHandler(ExListView_ItemChecked);
         }

@@ -36,10 +36,13 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.pgbStatus = new System.Windows.Forms.ToolStripProgressBar();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.explorer1 = new Backup.Gui.Explorer();
+            this.explorerList1 = new Backup.Gui.ExplorerList();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.menuButtonBack = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.cbxFilter = new System.Windows.Forms.ToolStripComboBox();
             this.txtSearch = new System.Windows.Forms.ToolStripTextBox();
             this.startBackupLabel = new System.Windows.Forms.ToolStripLabel();
             this.btnStartBackup = new System.Windows.Forms.ToolStripButton();
@@ -49,9 +52,6 @@
             this.lblBackupDestination = new System.Windows.Forms.ToolStripLabel();
             this.txtBackupDestination = new System.Windows.Forms.ToolStripTextBox();
             this.btnBrowse = new System.Windows.Forms.ToolStripButton();
-            this.cbxFilter = new System.Windows.Forms.ToolStripComboBox();
-            this.explorer1 = new Backup.Gui.Explorer();
-            this.explorerList1 = new Backup.Gui.ExplorerList();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -124,6 +124,23 @@
             this.splitContainer1.SplitterDistance = 173;
             this.splitContainer1.TabIndex = 2;
             // 
+            // explorer1
+            // 
+            this.explorer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.explorer1.Location = new System.Drawing.Point(0, 0);
+            this.explorer1.Name = "explorer1";
+            this.explorer1.Size = new System.Drawing.Size(173, 206);
+            this.explorer1.TabIndex = 0;
+            // 
+            // explorerList1
+            // 
+            this.explorerList1.CurrentDir = null;
+            this.explorerList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.explorerList1.Location = new System.Drawing.Point(0, 0);
+            this.explorerList1.Name = "explorerList1";
+            this.explorerList1.Size = new System.Drawing.Size(439, 206);
+            this.explorerList1.TabIndex = 0;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
@@ -165,6 +182,20 @@
             // 
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            // 
+            // cbxFilter
+            // 
+            this.cbxFilter.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.cbxFilter.DropDownWidth = 75;
+            this.cbxFilter.Items.AddRange(new object[] {
+            "Name",
+            "Dateiendung",
+            "Regex",
+            "Name genau",
+            "Dateiendung genau",
+            "Regex genau"});
+            this.cbxFilter.Name = "cbxFilter";
+            this.cbxFilter.Size = new System.Drawing.Size(75, 25);
             // 
             // txtSearch
             // 
@@ -243,37 +274,6 @@
             this.btnBrowse.Size = new System.Drawing.Size(23, 22);
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
-            // cbxFilter
-            // 
-            this.cbxFilter.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.cbxFilter.DropDownWidth = 75;
-            this.cbxFilter.Items.AddRange(new object[] {
-            "Name",
-            "Dateiendung",
-            "Regex",
-            "Name genau",
-            "Dateiendung genau",
-            "Regex genau"});
-            this.cbxFilter.Name = "cbxFilter";
-            this.cbxFilter.Size = new System.Drawing.Size(75, 25);
-            // 
-            // explorer1
-            // 
-            this.explorer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.explorer1.Location = new System.Drawing.Point(0, 0);
-            this.explorer1.Name = "explorer1";
-            this.explorer1.Size = new System.Drawing.Size(173, 206);
-            this.explorer1.TabIndex = 0;
-            // 
-            // explorerList1
-            // 
-            this.explorerList1.CurrentDir = null;
-            this.explorerList1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.explorerList1.Location = new System.Drawing.Point(0, 0);
-            this.explorerList1.Name = "explorerList1";
-            this.explorerList1.Size = new System.Drawing.Size(439, 206);
-            this.explorerList1.TabIndex = 0;
             // 
             // DHBWBackup
             // 

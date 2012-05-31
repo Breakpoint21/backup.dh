@@ -14,37 +14,7 @@ namespace Backup.Core
         private Dictionary<FileInfo, long> selectedFiles = new Dictionary<FileInfo,long>();
         private Dictionary<FileInfo, long> index = null;
         private string summary;
-
-        public string Summary
-        {
-            get { return summary; }
-            set { summary = value; }
-        }
-
-        public Dictionary<FileInfo, long> Index
-        {
-            get { return index; }
-            set { index = value; }
-        }
-
-        public Dictionary<FileInfo, long> SelectedFiles
-        {
-            get { return selectedFiles; }
-            set { selectedFiles = value; }
-        }
-
-        public FileInfo BackupFile
-        {
-            get { return backupFile; }
-            set { backupFile = value; }
-        }
         private DirectoryInfo restoreDestination;
-
-        public DirectoryInfo RestoreDestination
-        {
-            get { return restoreDestination; }
-            set { restoreDestination = value; }
-        }
 
         private RestoreController()
         {
@@ -102,5 +72,37 @@ namespace Backup.Core
             Logger.SummaryLog(Summary, RestoreDestination);
             return builder.ToString(); ;
         }
+
+        #region properties
+        public string Summary
+        {
+            get { return summary; }
+            set { summary = value; }
+        }
+
+        public Dictionary<FileInfo, long> Index
+        {
+            get { return index; }
+            set { index = value; }
+        }
+
+        public Dictionary<FileInfo, long> SelectedFiles
+        {
+            get { return selectedFiles; }
+            set { selectedFiles = value; }
+        }
+
+        public FileInfo BackupFile
+        {
+            get { return backupFile; }
+            set { backupFile = value; }
+        }
+
+        public DirectoryInfo RestoreDestination
+        {
+            get { return restoreDestination; }
+            set { restoreDestination = value; }
+        }
+        #endregion
     }
 }

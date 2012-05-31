@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupCore", "BackupCore\Ba
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "UML", "UML\UML.modelproj", "{9B268610-2B4D-4D2E-9698-6160C6B8A1F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDDemo", "DDDemo\DDDemo.csproj", "{03B93E43-B4AD-471C-A78C-10A11BC70546}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,16 +47,6 @@ Global
 		{9B268610-2B4D-4D2E-9698-6160C6B8A1F4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9B268610-2B4D-4D2E-9698-6160C6B8A1F4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9B268610-2B4D-4D2E-9698-6160C6B8A1F4}.Release|x86.ActiveCfg = Release|Any CPU
-		{03B93E43-B4AD-471C-A78C-10A11BC70546}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{03B93E43-B4AD-471C-A78C-10A11BC70546}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{03B93E43-B4AD-471C-A78C-10A11BC70546}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{03B93E43-B4AD-471C-A78C-10A11BC70546}.Debug|x86.ActiveCfg = Debug|x86
-		{03B93E43-B4AD-471C-A78C-10A11BC70546}.Debug|x86.Build.0 = Debug|x86
-		{03B93E43-B4AD-471C-A78C-10A11BC70546}.Release|Any CPU.ActiveCfg = Release|x86
-		{03B93E43-B4AD-471C-A78C-10A11BC70546}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{03B93E43-B4AD-471C-A78C-10A11BC70546}.Release|Mixed Platforms.Build.0 = Release|x86
-		{03B93E43-B4AD-471C-A78C-10A11BC70546}.Release|x86.ActiveCfg = Release|x86
-		{03B93E43-B4AD-471C-A78C-10A11BC70546}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

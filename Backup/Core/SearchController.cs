@@ -45,7 +45,45 @@ namespace Backup.Core
 
         private List<ExplorerListItem> MatchRegex(DirectoryInfo selectedDir, string searchExpression)
         {
-            throw new NotImplementedException();
+            FetchingService fetch = new FetchingService();
+            List<ExplorerListItem> ret = new List<ExplorerListItem>();
+            foreach (FileInfo file in fetch.FetchFiles(selectedDir))
+            {
+                bool contains = false;
+                if (Regex.Match(file.Name, searchExpression).Length == file.Name.Length)
+                {
+                    contains = true;
+                }
+                if (Regex.Match(file.Extension, searchExpression).Length == file.Extension.Length)
+                {
+                    contains = true;
+                }
+                if (Regex.Match(file.LastWriteTime.ToShortDateString(), searchExpression).Length == file.LastWriteTime.ToShortDateString().Length)
+                {
+                    contains = true;
+                }
+                if (contains)
+                {
+                    ret.Add(new ExplorerListItem(file));
+                }
+            }
+            foreach (DirectoryInfo dir in fetch.FetchDirectories(selectedDir))
+            {
+                bool contains = false;
+                if (Regex.Match(dir.Name, searchExpression).Length == dir.Name.Length)
+                {
+                    contains = true;
+                }
+                if (Regex.Match(dir.LastWriteTime.ToShortDateString(), searchExpression).Length == dir.LastWriteTime.ToShortDateString().Length)
+                {
+                    contains = true;
+                }
+                if (contains)
+                {
+                    ret.Add(new ExplorerListItem(dir));
+                }
+            }
+            return ret;
         }
 
         private List<ExplorerListItem> MatchExtension(DirectoryInfo selectedDir, string searchExpression)
@@ -91,15 +129,15 @@ namespace Backup.Core
             foreach (FileInfo file in fetch.FetchFiles(selectedDir))
             {
                 bool contains = false;
-                if (Regex.IsMatch(file.Name, searchExpression))
+                if (Regex.IsMatch(file.Name, searchExpression, RegexOptions.IgnoreCase))
                 {
                     contains = true;
                 }
-                if (Regex.IsMatch(file.Extension, searchExpression))
+                if (Regex.IsMatch(file.Extension, searchExpression, RegexOptions.IgnoreCase))
                 {
                     contains = true;
                 }
-                if (Regex.IsMatch(file.LastWriteTime.ToString(), searchExpression))
+                if (Regex.IsMatch(file.LastWriteTime.ToString(), searchExpression, RegexOptions.IgnoreCase))
                 {
                     contains = true;
                 }
@@ -111,15 +149,11 @@ namespace Backup.Core
             foreach (DirectoryInfo dir in fetch.FetchDirectories(selectedDir))
             {
                 bool contains = false;
-                if (Regex.IsMatch(dir.Name, searchExpression))
+                if (Regex.IsMatch(dir.Name, searchExpression, RegexOptions.IgnoreCase))
                 {
                     contains = true;
                 }
-                if (Regex.IsMatch(dir.Extension, searchExpression))
-                {
-                    contains = true;
-                }
-                if (Regex.IsMatch(dir.LastWriteTime.ToString(), searchExpression))
+                if (Regex.IsMatch(dir.LastWriteTime.ToString(), searchExpression, RegexOptions.IgnoreCase))
                 {
                     contains = true;
                 }

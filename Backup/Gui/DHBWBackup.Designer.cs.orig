@@ -28,36 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DHBWBackup));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.explorer1 = new Backup.Gui.Explorer();
+            this.explorerList1 = new Backup.Gui.ExplorerList();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.öffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblNumbSel = new System.Windows.Forms.ToolStripStatusLabel();
             this.pgbStatus = new System.Windows.Forms.ToolStripProgressBar();
+<<<<<<< HEAD
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.explorer1 = new Backup.Gui.Explorer();
+            this.explorerList1 = new Backup.Gui.ExplorerList();
+=======
+>>>>>>> 595303e6f4591fd2697e1ff97bed16a69c0d8207
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.menuButtonBack = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.cbxFilter = new System.Windows.Forms.ToolStripComboBox();
+            this.txtSearch = new System.Windows.Forms.ToolStripTextBox();
+            this.startBackupLabel = new System.Windows.Forms.ToolStripLabel();
+            this.btnStartBackup = new System.Windows.Forms.ToolStripButton();
+            this.btnRestore = new System.Windows.Forms.ToolStripButton();
+            this.backupWorker = new System.ComponentModel.BackgroundWorker();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.lblBackupDestination = new System.Windows.Forms.ToolStripLabel();
             this.txtBackupDestination = new System.Windows.Forms.ToolStripTextBox();
             this.btnBrowse = new System.Windows.Forms.ToolStripButton();
-            this.startBackupLabel = new System.Windows.Forms.ToolStripLabel();
-            this.btnStartBackup = new System.Windows.Forms.ToolStripButton();
-            this.lblRestore = new System.Windows.Forms.ToolStripLabel();
-            this.btnRestore = new System.Windows.Forms.ToolStripButton();
-            this.cbxFilter = new System.Windows.Forms.ToolStripComboBox();
-            this.txtSearch = new System.Windows.Forms.ToolStripTextBox();
-            this.menuButtonBack = new System.Windows.Forms.ToolStripButton();
-            this.backupWorker = new System.ComponentModel.BackgroundWorker();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.txtExplorerPath = new System.Windows.Forms.ToolStripTextBox();
-            this.dstToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.explorer1 = new Backup.Gui.Explorer();
-            this.explorerList1 = new Backup.Gui.ExplorerList();
+<<<<<<< HEAD
+            this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+=======
+>>>>>>> 595303e6f4591fd2697e1ff97bed16a69c0d8207
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -81,6 +86,17 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.explorerList1);
             // 
+            // explorer1
+            // 
+            resources.ApplyResources(this.explorer1, "explorer1");
+            this.explorer1.Name = "explorer1";
+            // 
+            // explorerList1
+            // 
+            this.explorerList1.CurrentDir = null;
+            resources.ApplyResources(this.explorerList1, "explorerList1");
+            this.explorerList1.Name = "explorerList1";
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -91,23 +107,8 @@
             // 
             // fileToolStripMenuItem
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.öffnenToolStripMenuItem,
-            this.beendenToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
-            // 
-            // öffnenToolStripMenuItem
-            // 
-            this.öffnenToolStripMenuItem.Name = "öffnenToolStripMenuItem";
-            resources.ApplyResources(this.öffnenToolStripMenuItem, "öffnenToolStripMenuItem");
-            this.öffnenToolStripMenuItem.Click += new System.EventHandler(this.öffnenToolStripMenuItem_Click);
-            // 
-            // beendenToolStripMenuItem
-            // 
-            this.beendenToolStripMenuItem.Name = "beendenToolStripMenuItem";
-            resources.ApplyResources(this.beendenToolStripMenuItem, "beendenToolStripMenuItem");
-            this.beendenToolStripMenuItem.Click += new System.EventHandler(this.beendenToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -118,9 +119,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
-            this.lblNumbSel,
             this.pgbStatus});
-            this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             resources.ApplyResources(this.statusStrip1, "statusStrip1");
             this.statusStrip1.Name = "statusStrip1";
             // 
@@ -129,86 +128,73 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
             // 
-            // lblNumbSel
-            // 
-            this.lblNumbSel.Name = "lblNumbSel";
-            resources.ApplyResources(this.lblNumbSel, "lblNumbSel");
-            // 
             // pgbStatus
             // 
-            this.pgbStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.pgbStatus.Name = "pgbStatus";
             resources.ApplyResources(this.pgbStatus, "pgbStatus");
+            // 
+            // explorer1
+            // 
+            this.explorer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.explorer1.Location = new System.Drawing.Point(0, 0);
+            this.explorer1.Name = "explorer1";
+            this.explorer1.Size = new System.Drawing.Size(173, 206);
+            this.explorer1.TabIndex = 0;
+            // 
+            // explorerList1
+            // 
+            this.explorerList1.CurrentDir = null;
+            this.explorerList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.explorerList1.Location = new System.Drawing.Point(0, 0);
+            this.explorerList1.Name = "explorerList1";
+            this.explorerList1.Size = new System.Drawing.Size(439, 206);
+            this.explorerList1.TabIndex = 0;
             // 
             // toolStrip1
             // 
             this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblBackupDestination,
-            this.txtBackupDestination,
-            this.btnBrowse,
+            this.menuButtonBack,
+            this.toolStripButton2,
+            this.toolStripComboBox1,
+            this.txtSearch,
             this.startBackupLabel,
             this.btnStartBackup,
-            this.lblRestore,
             this.btnRestore});
             resources.ApplyResources(this.toolStrip1, "toolStrip1");
             this.toolStrip1.Name = "toolStrip1";
             // 
-            // lblBackupDestination
+            // menuButtonBack
             // 
-            this.lblBackupDestination.Name = "lblBackupDestination";
-            resources.ApplyResources(this.lblBackupDestination, "lblBackupDestination");
+            this.menuButtonBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.menuButtonBack, "menuButtonBack");
+            this.menuButtonBack.Name = "menuButtonBack";
+            this.menuButtonBack.Click += new System.EventHandler(this.menuButtonBack_Click);
             // 
-            // txtBackupDestination
+            // toolStripButton2
             // 
-            this.txtBackupDestination.Name = "txtBackupDestination";
-            resources.ApplyResources(this.txtBackupDestination, "txtBackupDestination");
-            this.txtBackupDestination.Click += new System.EventHandler(this.txtBackupDestination_Click);
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.toolStripButton2, "toolStripButton2");
+            this.toolStripButton2.Name = "toolStripButton2";
             // 
-            // btnBrowse
+            // toolStripComboBox1
             // 
-            this.btnBrowse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(this.btnBrowse, "btnBrowse");
-            this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
-            // startBackupLabel
-            // 
-            this.startBackupLabel.Name = "startBackupLabel";
-            resources.ApplyResources(this.startBackupLabel, "startBackupLabel");
-            // 
-            // btnStartBackup
-            // 
-            this.btnStartBackup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(this.btnStartBackup, "btnStartBackup");
-            this.btnStartBackup.Name = "btnStartBackup";
-            this.btnStartBackup.Click += new System.EventHandler(this.startBackupLabel_Click);
-            // 
-            // lblRestore
-            // 
-            this.lblRestore.Name = "lblRestore";
-            resources.ApplyResources(this.lblRestore, "lblRestore");
-            // 
-            // btnRestore
-            // 
-            this.btnRestore.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(this.btnRestore, "btnRestore");
-            this.btnRestore.Name = "btnRestore";
-            this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            resources.ApplyResources(this.toolStripComboBox1, "toolStripComboBox1");
             // 
             // cbxFilter
             // 
             this.cbxFilter.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.cbxFilter.DropDownWidth = 75;
             this.cbxFilter.Items.AddRange(new object[] {
-            resources.GetString("cbxFilter.Items"),
-            resources.GetString("cbxFilter.Items1"),
-            resources.GetString("cbxFilter.Items2"),
-            resources.GetString("cbxFilter.Items3"),
-            resources.GetString("cbxFilter.Items4"),
-            resources.GetString("cbxFilter.Items5")});
+            "Name",
+            "Dateiendung",
+            "Regex",
+            "Name genau",
+            "Dateiendung genau",
+            "Regex genau"});
             this.cbxFilter.Name = "cbxFilter";
-            resources.ApplyResources(this.cbxFilter, "cbxFilter");
+            this.cbxFilter.Size = new System.Drawing.Size(75, 25);
             // 
             // txtSearch
             // 
@@ -218,15 +204,26 @@
             this.txtSearch.Margin = new System.Windows.Forms.Padding(1);
             this.txtSearch.Name = "txtSearch";
             resources.ApplyResources(this.txtSearch, "txtSearch");
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
-            this.txtSearch.Click += new System.EventHandler(this.txtSearch_Click);
             // 
-            // menuButtonBack
+            // startBackupLabel
             // 
-            this.menuButtonBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(this.menuButtonBack, "menuButtonBack");
-            this.menuButtonBack.Name = "menuButtonBack";
-            this.menuButtonBack.Click += new System.EventHandler(this.menuButtonBack_Click);
+            this.startBackupLabel.Name = "startBackupLabel";
+            resources.ApplyResources(this.startBackupLabel, "startBackupLabel");
+            this.startBackupLabel.Click += new System.EventHandler(this.startBackupLabel_Click);
+            // 
+            // btnStartBackup
+            // 
+            this.btnStartBackup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.btnStartBackup, "btnStartBackup");
+            this.btnStartBackup.Name = "btnStartBackup";
+            this.btnStartBackup.Click += new System.EventHandler(this.startBackupLabel_Click);
+            // 
+            // btnRestore
+            // 
+            this.btnRestore.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.btnRestore, "btnRestore");
+            this.btnRestore.Name = "btnRestore";
+            this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
             // 
             // backupWorker
             // 
@@ -238,40 +235,28 @@
             // toolStrip2
             // 
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuButtonBack,
-            this.txtExplorerPath,
-            this.cbxFilter,
-            this.txtSearch});
+            this.lblBackupDestination,
+            this.txtBackupDestination,
+            this.btnBrowse});
             resources.ApplyResources(this.toolStrip2, "toolStrip2");
             this.toolStrip2.Name = "toolStrip2";
             // 
-            // txtExplorerPath
+            // lblBackupDestination
             // 
-            this.txtExplorerPath.Name = "txtExplorerPath";
-            resources.ApplyResources(this.txtExplorerPath, "txtExplorerPath");
+            this.lblBackupDestination.Name = "lblBackupDestination";
+            resources.ApplyResources(this.lblBackupDestination, "lblBackupDestination");
             // 
-            // dstToolTip
+            // txtBackupDestination
             // 
-            this.dstToolTip.IsBalloon = true;
+            this.txtBackupDestination.Name = "txtBackupDestination";
+            resources.ApplyResources(this.txtBackupDestination, "txtBackupDestination");
             // 
-            // imageList1
+            // btnBrowse
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Hard_Drive.png");
-            this.imageList1.Images.SetKeyName(1, "FolderOpen_16x16_72.png");
-            this.imageList1.Images.SetKeyName(2, "Hard_Drive.png");
-            // 
-            // explorer1
-            // 
-            resources.ApplyResources(this.explorer1, "explorer1");
-            this.explorer1.Name = "explorer1";
-            // 
-            // explorerList1
-            // 
-            resources.ApplyResources(this.explorerList1, "explorerList1");
-            this.explorerList1.CurrentDir = null;
-            this.explorerList1.Name = "explorerList1";
+            this.btnBrowse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.btnBrowse, "btnBrowse");
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // DHBWBackup
             // 
@@ -289,7 +274,6 @@
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.DHBWBackup_DragEnter);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -316,6 +300,8 @@
         private ExplorerList explorerList1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton menuButtonBack;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
         private System.Windows.Forms.ToolStripTextBox txtSearch;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripLabel startBackupLabel;
@@ -327,13 +313,5 @@
         private System.Windows.Forms.ToolStripButton btnRestore;
         private System.Windows.Forms.ToolStripButton btnStartBackup;
         private System.Windows.Forms.ToolStripProgressBar pgbStatus;
-        private System.Windows.Forms.ToolStripComboBox cbxFilter;
-        private System.Windows.Forms.ToolStripStatusLabel lblNumbSel;
-        private System.Windows.Forms.ToolTip dstToolTip;
-        private System.Windows.Forms.ToolStripLabel lblRestore;
-        private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.ToolStripTextBox txtExplorerPath;
-        private System.Windows.Forms.ToolStripMenuItem öffnenToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem beendenToolStripMenuItem;
     }
 }

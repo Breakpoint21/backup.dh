@@ -10,32 +10,12 @@ namespace Backup.Core
 {
     class ExplorerListItem : ListViewItem
     {
-        private DriveInfo driveInfo;
         private DirectoryInfo dirInfo;
-
+        private FileInfo fileIn;
         private DirectoryInfo parentDir;
 
         private BackupController controller = BackupController.getInstance();
-
-        public DirectoryInfo ParentDir
-        {
-            get { return parentDir; }
-            set { parentDir = value; }
-        }
-
-        public DirectoryInfo DirInfo
-        {
-            get { return dirInfo; }
-            set { dirInfo = value; }
-        }
-        private FileInfo fileIn;
-
-        public FileInfo FileIn
-        {
-            get { return fileIn; }
-            set { fileIn = value; }
-        }
-
+        
         public ExplorerListItem(DriveInfo driveInfo)
         {
             DirInfo = driveInfo.RootDirectory;
@@ -45,7 +25,8 @@ namespace Backup.Core
                 this.Text = driveInfo.Name;
                 this.ImageIndex = 2;
             }
-            
+            this.SubItems.Add("");
+            this.SubItems.Add(string.Format("{0:0.0} GB", ((double)driveInfo.TotalSize / (double)(1024 * 1024 * 1024))));
         }
 
         public ExplorerListItem(DirectoryInfo dirInfo)
@@ -87,5 +68,25 @@ namespace Backup.Core
             
             this.SubItems.Add(file.LastWriteTime.ToShortDateString());
         }
+
+        #region properties
+        public DirectoryInfo ParentDir
+        {
+            get { return parentDir; }
+            set { parentDir = value; }
+        }
+
+        public DirectoryInfo DirInfo
+        {
+            get { return dirInfo; }
+            set { dirInfo = value; }
+        }
+
+        public FileInfo FileIn
+        {
+            get { return fileIn; }
+            set { fileIn = value; }
+        }
+        #endregion
     }
 }

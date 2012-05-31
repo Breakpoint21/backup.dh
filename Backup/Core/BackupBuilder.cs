@@ -17,23 +17,6 @@ namespace Backup.Core
 		private BackgroundWorker worker;
         private List<FileInfo> filesToBackup;
 
-        public List<FileInfo> FilesToBackup
-        {
-            get { return filesToBackup; }
-            set { filesToBackup = value; }
-        }
-
-		public BackgroundWorker Worker
-		{
-			get { return worker; }
-			set { worker = value; }
-		}
-
-		public FileInfo Destination
-		{
-			get { return destination; }
-			set { destination = value; }
-		}
 		byte[] header;
 		byte[] manifest;
 
@@ -45,24 +28,22 @@ namespace Backup.Core
 		public bool BuildBackup(List<FileInfo> files, FileInfo destination)
 		{
             FilesToBackup = files;
+            Destination = destination;
+            StringBuilder summary = new StringBuilder();
+            List<BackupFile> byteFiles = new List<BackupFile>();
+            List<FileInfo> toRemove = new List<FileInfo>();
+            //
 			Stopwatch watch = new Stopwatch();
 			watch.Start();
-			Destination = destination;
-			List<BackupFile> byteFiles = new List<BackupFile>();
-            StringBuilder summary = new StringBuilder();
-            
-			foreach (FileInfo file in files)
-			{
-				BackupFile f = new BackupFile();
-				f.BuildFile(file);
-				byteFiles.Add(f);
-			}
-            manifest = buildManifest(files, byteFiles);
+            //
+            BuildByteFiles(byteFiles, toRemove);
+            manifest = buildManifest(byteFiles);
 			string tempFile = Path.GetTempFileName();
-            //Header = 4Byte Number of Files 4Byte Size of Manifest -> 8Byte
-			header = new byte[8];
+			
             try
             {
+                //Building Header, first 4Byte Number of Files, last 4 Byte Lenght of Manifest
+                header = new byte[8];
                 System.Buffer.BlockCopy(BitConverter.GetBytes(byteFiles.Count), 0, header, 0, 4);
                 System.Buffer.BlockCopy(BitConverter.GetBytes(manifest.Length), 0, header, 4, 4);
 
@@ -79,16 +60,12 @@ namespace Backup.Core
                     }
                     fs.Close();
                 }
-                foreach (FileInfo file in files)
-                {
-                    summary.AppendLine(file.FullName);
-                }
-                summary.AppendLine();
-                summary.AppendFormat("Number of saved Files: {0}", files.Count);
+                AppendSavedFiles(summary);
             }
             catch (Exception ex)
             {
                 Logger.Log("Error while creating Backup Container" + ex.Message, Logger.Level.ERROR);
+                //Cleanup when File was written
                 if (new FileInfo(tempFile).Exists)
                 {
                     new FileInfo(tempFile).Delete();
@@ -98,21 +75,71 @@ namespace Backup.Core
 			watch.Stop();
 			Logger.Log("Build Temp file took: " + watch.ElapsedMilliseconds + "ms", Logger.Level.DIAGNOSTIC);
             bool ret = Compress(tempFile);
-            summary.AppendLine();
-            summary.AppendFormat("Size of Backup Container: {0} KB", destination.Length);
-            BackupController ctrl = BackupController.getInstance();
-            ctrl.Summary = summary.ToString();
+            AppendSummary(destination, summary, toRemove);
 			return ret;
 		}
 
-        private byte[] buildManifest(List<FileInfo> files, List<BackupFile> byteFiles)
+        private void AppendSavedFiles(StringBuilder summary)
+        {
+            foreach (FileInfo file in FilesToBackup)
+            {
+                summary.AppendLine(file.FullName);
+            }
+            summary.AppendLine();
+            summary.AppendFormat("Number of saved Files: {0}", FilesToBackup.Count);
+        }
+
+        private void BuildByteFiles(List<BackupFile> byteFiles, List<FileInfo> toRemove)
+        {
+            foreach (FileInfo file in FilesToBackup)
+            {
+                BackupFile f = new BackupFile();
+                if (f.BuildFile(file))
+                {
+                    byteFiles.Add(f);
+                }
+                else
+                {
+                    toRemove.Add(file);
+                }
+            }
+            foreach (FileInfo file in toRemove)
+            {
+                FilesToBackup.Remove(file);
+            }
+        }
+
+        /// <summary>
+        /// Builds the Summery, when Saving the File is finsihed
+        /// </summary>
+        /// <param name="destination">Destination of the backup File</param>
+        /// <param name="summary">StringBuilder to append</param>
+        /// <param name="toRemove">List of Files which couldn't be saved</param>
+        private void AppendSummary(FileInfo destination, StringBuilder summary, List<FileInfo> toRemove)
+        {
+            destination.Refresh();
+            summary.AppendLine();
+            summary.AppendLine("Errors:");
+            foreach (FileInfo file in toRemove)
+            {
+                summary.AppendLine(file.FullName);
+            }
+            summary.AppendLine();
+            summary.AppendFormat("Size of Backup Container: {0} KB", destination.Length / 1024);
+            BackupController ctrl = BackupController.getInstance();
+            ctrl.Summary = summary.ToString();
+        }
+
+        private byte[] buildManifest(List<BackupFile> byteFiles)
         {
             byte[] ret;
             Dictionary<FileInfo, long> manifest = new Dictionary<FileInfo, long>();
-            for (int i = 0; i < files.Count; i++)
+            //Saving the Size of the original File
+            for (int i = 0; i < FilesToBackup.Count; i++)
             {
-                manifest.Add(files[i], byteFiles[i].Length);
+                manifest.Add(FilesToBackup[i], byteFiles[i].Length);
             }
+            //Serialing the Dictonary to a byte[] which will later be written into the backup container
             using (MemoryStream memStr = new MemoryStream())
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -169,5 +196,25 @@ namespace Backup.Core
 			temp.Delete();
             return true;
 		}
-	}
+
+        #region properties
+        public List<FileInfo> FilesToBackup
+        {
+            get { return filesToBackup; }
+            set { filesToBackup = value; }
+        }
+
+        public BackgroundWorker Worker
+        {
+            get { return worker; }
+            set { worker = value; }
+        }
+
+        public FileInfo Destination
+        {
+            get { return destination; }
+            set { destination = value; }
+        }
+        #endregion
+    }
 }

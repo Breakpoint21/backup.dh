@@ -30,13 +30,21 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExplorerList));
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.explorerListView = new Backup.Gui.ExplorerListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Hard_Drive.png");
+            this.imageList1.Images.SetKeyName(1, "FolderOpen_16x16_72.png");
+            this.imageList1.Images.SetKeyName(2, "Hard_Drive.png");
             // 
             // explorerListView
             // 
@@ -50,14 +58,13 @@
             this.explorerListView.FullRowSelect = true;
             this.explorerListView.Location = new System.Drawing.Point(0, 0);
             this.explorerListView.Name = "explorerListView";
-            this.explorerListView.Size = new System.Drawing.Size(334, 150);
+            this.explorerListView.Size = new System.Drawing.Size(388, 153);
             this.explorerListView.SmallImageList = this.imageList1;
             this.explorerListView.TabIndex = 0;
             this.explorerListView.UseCompatibleStateImageBehavior = false;
             this.explorerListView.View = System.Windows.Forms.View.Details;
             this.explorerListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.explorerListView_ColumnClick);
             this.explorerListView.DoubleClick += new System.EventHandler(this.explorerListView_DoubleClick);
-            this.explorerListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.explorerListView_MouseDoubleClick);
             // 
             // columnHeader1
             // 
@@ -73,26 +80,21 @@
             // columnHeader3
             // 
             this.columnHeader3.Text = "Size";
+            this.columnHeader3.Width = 65;
             // 
             // columnHeader4
             // 
             this.columnHeader4.Text = "Date";
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Hard_Drive.png");
-            this.imageList1.Images.SetKeyName(1, "FolderOpen_16x16_72.png");
-            this.imageList1.Images.SetKeyName(2, "Hard_Drive.png");
+            this.columnHeader4.Width = 80;
             // 
             // ExplorerList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.Controls.Add(this.explorerListView);
             this.Name = "ExplorerList";
-            this.Size = new System.Drawing.Size(334, 150);
+            this.Size = new System.Drawing.Size(388, 153);
             this.ResumeLayout(false);
 
         }

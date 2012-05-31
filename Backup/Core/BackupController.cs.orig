@@ -1,0 +1,151 @@
+<<<<<<< HEAD
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+
+namespace Backup.Core
+{
+    public class BackupController
+    {
+        private List<BackupFileInfo> selectedDirs = new List<BackupFileInfo>();
+        private List<BackupFileInfo> selectedFiles = new List<BackupFileInfo>();
+        private FileInfo destination = null;
+
+        public FileInfo Destination
+        {
+            get { return destination; }
+            set { destination = value; }
+        }
+
+        public List<BackupFileInfo> SelectedFiles
+        {
+            get { return selectedFiles; }
+            set { selectedFiles = value; }
+        }
+
+        public List<BackupFileInfo> SelectedDirs
+        {
+            get { return selectedDirs; }
+            set { selectedDirs = value; }
+        }
+
+        private static BackupController instance;
+
+        private static BackupController Instance
+        {
+            get { return instance; }
+            set { instance = value; }
+        }
+
+        public static BackupController getInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new BackupController();
+            }
+            return Instance;
+        }
+
+        private BackupController()
+        {
+
+        }
+
+        public void startBackup()
+        {
+            BackupBuilder builder = new BackupBuilder();
+            //Add Dirs to the Files List
+            List<FileInfo> backupFiles = new List<FileInfo>();
+            foreach (BackupFileInfo dir in SelectedDirs)
+            {
+                backupFiles.AddRange(dir.DirInfo.GetFiles());
+            }
+            foreach (BackupFileInfo file in SelectedFiles)
+            {
+                backupFiles.Add(file.FileIn);
+            }
+            if (Destination != null)
+            {
+                builder.BuildBackup(backupFiles, Destination);    
+            }
+            
+        }
+    }
+}
+=======
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.ComponentModel;
+
+namespace Backup.Core
+{
+    public class BackupController
+    {
+        private List<BackupFileInfo> selectedDirs = new List<BackupFileInfo>();
+        private List<BackupFileInfo> selectedFiles = new List<BackupFileInfo>();
+        private FileInfo destination = null;
+
+        public FileInfo Destination
+        {
+            get { return destination; }
+            set { destination = value; }
+        }
+
+        public List<BackupFileInfo> SelectedFiles
+        {
+            get { return selectedFiles; }
+            set { selectedFiles = value; }
+        }
+
+        public List<BackupFileInfo> SelectedDirs
+        {
+            get { return selectedDirs; }
+            set { selectedDirs = value; }
+        }
+
+        private static BackupController instance;
+
+        private static BackupController Instance
+        {
+            get { return instance; }
+            set { instance = value; }
+        }
+
+        public static BackupController getInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new BackupController();
+            }
+            return Instance;
+        }
+
+        private BackupController()
+        {
+
+        }
+
+        public void startBackup(BackgroundWorker worker)
+        {
+            BackupBuilder builder = new BackupBuilder();
+            //Add Dirs to the Files List
+            List<FileInfo> backupFiles = new List<FileInfo>();
+            foreach (BackupFileInfo dir in SelectedDirs)
+            {
+                backupFiles.AddRange(dir.DirInfo.GetFiles("*", SearchOption.AllDirectories));
+            }
+            foreach (BackupFileInfo file in SelectedFiles)
+            {
+                backupFiles.Add(file.FileIn);
+            }
+            builder.Worker = worker;
+            builder.BuildBackup(backupFiles, Destination);
+        }
+    }
+}
+>>>>>>> 6d50be1a6495f2f8b4323787694c06af5dfc0cc4

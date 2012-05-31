@@ -14,53 +14,29 @@ namespace Backup.Gui
     public partial class RestoreBackup : Form
     {
         private RestoreController controller;
-
-        public RestoreController Controller
-        {
-            get { return controller; }
-            set { controller = value; }
-        }
         private string sourcePath;
-
-        public string SourcePath
-        {
-            get { return sourcePath; }
-            set 
-            { 
-                sourcePath = value;
-                this.txtRestoreSource.Text = sourcePath;
-            }
-        }
         private string destinationPath;
-
-        public string DestinationPath
-        {
-            get { return destinationPath; }
-            set 
-            { 
-                destinationPath = value;
-                this.txtRestoreDestination.Text = destinationPath;
-            }
-        }
-
-        public RestoreBackup()
+        
+        public RestoreBackup(string source)
         {
             this.Controller = RestoreController.getInstance();
             InitializeComponent();
+            if (source != string.Empty && source != null)
+            {
+                SourcePath = source;
+            }
         }
 
         private void btnBrowseSource_Click(object sender, EventArgs e)
         {
             OpenFileDialog dia = new OpenFileDialog();
             dia.CheckFileExists = true;
-            dia.DefaultExt = "dhbw";
+            dia.Filter = "Backup Files|*.dhbw";
             DialogResult res = dia.ShowDialog(this);
 
             if (res == DialogResult.OK)
             {
-                Controller.BackupFile = new FileInfo(dia.FileName);
                 this.SourcePath = dia.FileName;
-                FillListView(Controller.BuildIndex());
             }
         }
 
@@ -216,5 +192,35 @@ namespace Backup.Gui
                 }
             }
         }
+
+        #region properties
+        public RestoreController Controller
+        {
+            get { return controller; }
+            set { controller = value; }
+        }
+
+        public string SourcePath
+        {
+            get { return sourcePath; }
+            set
+            {
+                sourcePath = value;
+                this.txtRestoreSource.Text = sourcePath;
+                Controller.BackupFile = new FileInfo(sourcePath);
+                FillListView(Controller.BuildIndex());
+            }
+        }
+
+        public string DestinationPath
+        {
+            get { return destinationPath; }
+            set
+            {
+                destinationPath = value;
+                this.txtRestoreDestination.Text = destinationPath;
+            }
+        }
+        #endregion
     }
 }

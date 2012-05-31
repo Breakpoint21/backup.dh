@@ -96,6 +96,7 @@ namespace Backup.Core
                 }
                 zipStream.Close();
             }
+            reader.Close();
             watch.Stop();
             Logger.Log("Creating Index with " + files.Count + " Items took: " + watch.ElapsedMilliseconds + "ms", Logger.Level.DIAGNOSTIC);
             

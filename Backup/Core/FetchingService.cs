@@ -39,6 +39,19 @@ namespace Backup.Core
             return accessibleFiles;
         }
 
+        public List<FileInfo> FetchAllFiles(DirectoryInfo root)
+        {
+            List<FileInfo> accessibleFiles = new List<FileInfo>();
+            foreach (FileInfo file in root.GetFiles("*", SearchOption.AllDirectories))
+            {
+                if (!IsAccessDenied(file))
+                {
+                    accessibleFiles.Add(file);
+                }
+            }
+            return accessibleFiles;
+        }
+
         private bool IsAccessDenied(FileInfo file)
         {
             return false;

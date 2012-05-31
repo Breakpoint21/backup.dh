@@ -11,16 +11,18 @@ using Backup.Core;
 
 namespace Backup.Gui
 {
-    public partial class ExplorerList : UserControl
+    public partial class ExplorerList : UserControl, INotifyPropertyChanged
     {
         private ExplorerListView exListView;
         private ListViewColumnSorter lstviewSorter;
         private DirectoryInfo currentDir;
-
+        public event PropertyChangedEventHandler PropertyChanged;
         public DirectoryInfo CurrentDir
         {
             get { return currentDir; }
-            set { currentDir = value; }
+            set { currentDir = value;
+                OnPropertyChanged("CurrentDir");
+            }
         }
 
         public ExplorerListView ExListView
@@ -42,12 +44,19 @@ namespace Backup.Gui
         {
             explorerListView.Items.Clear();
             imageList1.ImageSize = new Size(48, 48);
+            imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(new System.ComponentModel.ComponentResourceManager(typeof(ExplorerList)).GetObject("imageList1.ImageStream")));
+            imageList1.Images.SetKeyName(0, "Hard_Drive.png");
+            imageList1.Images.SetKeyName(1, "FolderOpen_16x16_72.png");
+            imageList1.Images.SetKeyName(2, "Hard_Drive.png");
             explorerListView.CheckBoxes = false;
-            explorerListView.View = View.SmallIcon;
+            explorerListView.View = View.Details;
             DriveInfo[] drives = DriveInfo.GetDrives();
             foreach (DriveInfo drive in drives)
             {
-                explorerListView.Items.Add(new ExplorerListItem(drive));
+                if (drive.IsReady)
+                {
+                    explorerListView.Items.Add(new ExplorerListItem(drive));
+                }
             }
         }
 
@@ -82,17 +91,16 @@ namespace Backup.Gui
 
         internal void DirectoryBack()
         {
-            ExplorerListItem item = explorerListView.Items[0] as ExplorerListItem;
-            if (item != null)
+            if (CurrentDir != null)
             {
-                if (item.ParentDir.Parent != null)
+                if (CurrentDir.Parent != null)
                 {
-                    fillListView(item.ParentDir.Parent);   
+                    fillListView(CurrentDir.Parent);
                 }
                 else
                 {
                     prepareListView();
-                }
+                }     
             }
         }
 
@@ -118,23 +126,21 @@ namespace Backup.Gui
             this.explorerListView.Sort();
         }
 
-        private void explorerListView_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            //ListView.SelectedListViewItemCollection selected = explorerListView.SelectedItems;
-            //ExplorerListItem sel = selected[0] as ExplorerListItem;
-
-            //if (sel.DirInfo != null)
-            //{
-            //    fillListView(sel.DirInfo);
-            //}
-        }
-
         internal void fillListView(List<ExplorerListItem> matches)
         {
             explorerListView.Items.Clear();
             foreach (ExplorerListItem item in matches)
             {
                 explorerListView.Items.Add(item);
+            }
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
             }
         }
     }

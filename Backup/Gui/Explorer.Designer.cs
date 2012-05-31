@@ -45,7 +45,6 @@
             this.explorerTreeView.Size = new System.Drawing.Size(184, 312);
             this.explorerTreeView.TabIndex = 0;
             this.explorerTreeView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.explorerTreeView_BeforeExpand);
-            this.explorerTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.explorerTreeView_NodeMouseClick);
             // 
             // imageList1
             // 

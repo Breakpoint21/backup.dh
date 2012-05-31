@@ -14,37 +14,7 @@ namespace Backup.Core
         private FileInfo destination = null;
         private string summary;
 
-        public string Summary
-        {
-            get { return summary; }
-            set { summary = value; }
-        }
-
-        public FileInfo Destination
-        {
-            get { return destination; }
-            set { destination = value; }
-        }
-
-        public List<BackupFileInfo> SelectedFiles
-        {
-            get { return selectedFiles; }
-            set { selectedFiles = value; }
-        }
-
-        public List<BackupFileInfo> SelectedDirs
-        {
-            get { return selectedDirs; }
-            set { selectedDirs = value; }
-        }
-
         private static BackupController instance;
-
-        private static BackupController Instance
-        {
-            get { return instance; }
-            set { instance = value; }
-        }
 
         public static BackupController getInstance()
         {
@@ -94,5 +64,61 @@ namespace Backup.Core
             Logger.SummaryLog(Summary, Destination.Directory);
             return builder.ToString();
         }
+
+        internal void AddDirectory(DirectoryInfo directoryInfo)
+        {
+            if (directoryInfo.FullName != directoryInfo.Root.FullName)
+            {
+                FetchingService service = new FetchingService();
+                foreach (FileInfo file in service.FetchAllFiles(directoryInfo))
+                {
+                    this.SelectedFiles.Add(new BackupFileInfo(file));
+                }
+            }
+        }
+
+        internal void RemoveDirectory(DirectoryInfo directoryInfo)
+        {
+            if (directoryInfo.Root.FullName != directoryInfo.FullName)
+            {
+                FetchingService service = new FetchingService();
+                foreach (FileInfo file in service.FetchAllFiles(directoryInfo))
+                {
+                    this.SelectedFiles.Remove(new BackupFileInfo(file));
+                }
+            }
+        }
+
+        #region properties
+        private static BackupController Instance
+        {
+            get { return instance; }
+            set { instance = value; }
+        }
+
+        public string Summary
+        {
+            get { return summary; }
+            set { summary = value; }
+        }
+
+        public FileInfo Destination
+        {
+            get { return destination; }
+            set { destination = value; }
+        }
+
+        public List<BackupFileInfo> SelectedFiles
+        {
+            get { return selectedFiles; }
+            set { selectedFiles = value; }
+        }
+
+        public List<BackupFileInfo> SelectedDirs
+        {
+            get { return selectedDirs; }
+            set { selectedDirs = value; }
+        }
+        #endregion
     }
 }

@@ -70,7 +70,15 @@ namespace Backup.Gui
 
         private void startBackupLabel_Click(object sender, EventArgs e)
         {
-            backupWorker.RunWorkerAsync();
+            if (Controller.Destination != null)
+            {
+                backupWorker.RunWorkerAsync();   
+            }
+            else
+            {
+                dstToolTip.SetToolTip(toolStrip2, "Required");
+                dstToolTip.Show("Please select a Destination first", toolStrip2, 1000);
+            }
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -111,10 +119,7 @@ namespace Backup.Gui
 
         private void backupWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (Controller.Destination != null)
-            {
-                Controller.startBackup(backupWorker);
-            }
+            e.Result = Controller.startBackup(backupWorker);
         }
 
         private void backupWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -124,8 +129,12 @@ namespace Backup.Gui
 
         private void backupWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            bool result = (bool)e.Result;
             pgbStatus.Value = 0;
-            MessageBox.Show("Backup Finished", "Summary", MessageBoxButtons.OK);
+            if (result)
+            {
+                MessageBox.Show(Controller.BuildSummary(), "Backup Completed", MessageBoxButtons.OK);
+            }
         }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
@@ -136,6 +145,11 @@ namespace Backup.Gui
                 List<ExplorerListItem> matches = srchCtrl.Search(explorerList1.CurrentDir, txtSearch.Text ,(SearchController.SearchModus)cbxFilter.SelectedIndex);
                 explorerList1.fillListView(matches);
             }
+        }
+
+        private void txtBackupDestination_Click(object sender, EventArgs e)
+        {
+            btnBrowse_Click(null, EventArgs.Empty);
         }
 
     }

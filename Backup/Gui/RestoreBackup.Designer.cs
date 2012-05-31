@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RestoreBackup));
             this.rdbCompleteBackup = new System.Windows.Forms.RadioButton();
             this.rdbSelectedBackup = new System.Windows.Forms.RadioButton();
@@ -36,12 +37,14 @@
             this.btnBrowseDestiation = new System.Windows.Forms.Button();
             this.restoreFilesListView = new System.Windows.Forms.ListView();
             this.File = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnBrowseSource = new System.Windows.Forms.Button();
             this.txtRestoreSource = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnStartRestore = new System.Windows.Forms.Button();
-            this.size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.restoreWorker = new System.ComponentModel.BackgroundWorker();
+            this.prgRestore = new System.Windows.Forms.ProgressBar();
+            this.restoreToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // rdbCompleteBackup
@@ -93,6 +96,10 @@
             // 
             resources.ApplyResources(this.File, "File");
             // 
+            // size
+            // 
+            resources.ApplyResources(this.size, "size");
+            // 
             // btnBrowseSource
             // 
             resources.ApplyResources(this.btnBrowseSource, "btnBrowseSource");
@@ -118,10 +125,6 @@
             this.btnStartRestore.UseVisualStyleBackColor = true;
             this.btnStartRestore.Click += new System.EventHandler(this.btnStartRestore_Click);
             // 
-            // size
-            // 
-            resources.ApplyResources(this.size, "size");
-            // 
             // restoreWorker
             // 
             this.restoreWorker.WorkerReportsProgress = true;
@@ -129,11 +132,21 @@
             this.restoreWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.restoreWorker_ProgressChanged);
             this.restoreWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.restoreWorker_RunWorkerCompleted);
             // 
+            // prgRestore
+            // 
+            resources.ApplyResources(this.prgRestore, "prgRestore");
+            this.prgRestore.Name = "prgRestore";
+            // 
+            // restoreToolTip
+            // 
+            this.restoreToolTip.IsBalloon = true;
+            // 
             // RestoreBackup
             // 
             this.AllowDrop = true;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.prgRestore);
             this.Controls.Add(this.btnStartRestore);
             this.Controls.Add(this.btnBrowseSource);
             this.Controls.Add(this.txtRestoreSource);
@@ -167,5 +180,7 @@
         private System.Windows.Forms.ColumnHeader File;
         private System.Windows.Forms.ColumnHeader size;
         private System.ComponentModel.BackgroundWorker restoreWorker;
+        private System.Windows.Forms.ProgressBar prgRestore;
+        private System.Windows.Forms.ToolTip restoreToolTip;
     }
 }

@@ -38,14 +38,10 @@ namespace Backup.Gui
                     explorerTreeView.Nodes.Add(new ExplorerTreeNode(drive.RootDirectory));
                 }
             }
-            FileDialogCustomPlacesCollection coll = new FileDialogCustomPlacesCollection();
-            
-            foreach (FileDialogCustomPlace place in coll)
-            {
-                DirectoryInfo dir = new DirectoryInfo(place.Path);
-                explorerTreeView.Nodes.Add(new ExplorerTreeNode(dir));
-            }
-
+            DirectoryInfo user = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+            explorerTreeView.Nodes.Add(new ExplorerTreeNode(user));
+            DirectoryInfo docs = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            explorerTreeView.Nodes.Add(new ExplorerTreeNode(docs));
             FetchingService fetchServ = new FetchingService();
             foreach (ExplorerTreeNode treeNode in explorerTreeView.Nodes)
             {
@@ -56,7 +52,6 @@ namespace Backup.Gui
                         treeNode.Nodes.Add(new ExplorerTreeNode(dir));
                     }
                 }
-                //FetchSubDirectorys(treeNode);
             }
         }
 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DHBWBackup));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.explorer1 = new Backup.Gui.Explorer();
@@ -37,8 +38,8 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.pgbStatus = new System.Windows.Forms.ToolStripProgressBar();
-
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.menuButtonBack = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
@@ -53,11 +54,7 @@
             this.lblBackupDestination = new System.Windows.Forms.ToolStripLabel();
             this.txtBackupDestination = new System.Windows.Forms.ToolStripTextBox();
             this.btnBrowse = new System.Windows.Forms.ToolStripButton();
-            this.cbxFilter = new System.Windows.Forms.ToolStripComboBox();
-            this.explorer1 = new Backup.Gui.Explorer();
-            this.explorerList1 = new Backup.Gui.ExplorerList();
-            this.menuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.dstToolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -114,6 +111,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
+            this.toolStripStatusLabel2,
             this.pgbStatus});
             resources.ApplyResources(this.statusStrip1, "statusStrip1");
             this.statusStrip1.Name = "statusStrip1";
@@ -123,27 +121,16 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
             // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            resources.ApplyResources(this.toolStripStatusLabel2, "toolStripStatusLabel2");
+            // 
             // pgbStatus
             // 
+            this.pgbStatus.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.pgbStatus.Name = "pgbStatus";
             resources.ApplyResources(this.pgbStatus, "pgbStatus");
-            // 
-            // explorer1
-            // 
-            this.explorer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.explorer1.Location = new System.Drawing.Point(0, 0);
-            this.explorer1.Name = "explorer1";
-            this.explorer1.Size = new System.Drawing.Size(173, 206);
-            this.explorer1.TabIndex = 0;
-            // 
-            // explorerList1
-            // 
-            this.explorerList1.CurrentDir = null;
-            this.explorerList1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.explorerList1.Location = new System.Drawing.Point(0, 0);
-            this.explorerList1.Name = "explorerList1";
-            this.explorerList1.Size = new System.Drawing.Size(439, 206);
-            this.explorerList1.TabIndex = 0;
             // 
             // toolStrip1
             // 
@@ -152,6 +139,7 @@
             this.menuButtonBack,
             this.toolStripButton2,
             this.toolStripComboBox1,
+            this.cbxFilter,
             this.txtSearch,
             this.startBackupLabel,
             this.btnStartBackup,
@@ -182,14 +170,14 @@
             this.cbxFilter.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.cbxFilter.DropDownWidth = 75;
             this.cbxFilter.Items.AddRange(new object[] {
-            "Name",
-            "Dateiendung",
-            "Regex",
-            "Name genau",
-            "Dateiendung genau",
-            "Regex genau"});
+            resources.GetString("cbxFilter.Items"),
+            resources.GetString("cbxFilter.Items1"),
+            resources.GetString("cbxFilter.Items2"),
+            resources.GetString("cbxFilter.Items3"),
+            resources.GetString("cbxFilter.Items4"),
+            resources.GetString("cbxFilter.Items5")});
             this.cbxFilter.Name = "cbxFilter";
-            this.cbxFilter.Size = new System.Drawing.Size(75, 25);
+            resources.ApplyResources(this.cbxFilter, "cbxFilter");
             // 
             // txtSearch
             // 
@@ -245,6 +233,7 @@
             // 
             this.txtBackupDestination.Name = "txtBackupDestination";
             resources.ApplyResources(this.txtBackupDestination, "txtBackupDestination");
+            this.txtBackupDestination.Click += new System.EventHandler(this.txtBackupDestination_Click);
             // 
             // btnBrowse
             // 
@@ -252,6 +241,10 @@
             resources.ApplyResources(this.btnBrowse, "btnBrowse");
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
+            // dstToolTip
+            // 
+            this.dstToolTip.IsBalloon = true;
             // 
             // DHBWBackup
             // 
@@ -309,5 +302,7 @@
         private System.Windows.Forms.ToolStripButton btnStartBackup;
         private System.Windows.Forms.ToolStripProgressBar pgbStatus;
         private System.Windows.Forms.ToolStripComboBox cbxFilter;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolTip dstToolTip;
     }
 }

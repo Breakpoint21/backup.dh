@@ -12,6 +12,13 @@ namespace Backup.Core
         private List<BackupFileInfo> selectedDirs = new List<BackupFileInfo>();
         private List<BackupFileInfo> selectedFiles = new List<BackupFileInfo>();
         private FileInfo destination = null;
+        private string summary;
+
+        public string Summary
+        {
+            get { return summary; }
+            set { summary = value; }
+        }
 
         public FileInfo Destination
         {
@@ -53,7 +60,7 @@ namespace Backup.Core
 
         }
 
-        public void startBackup(BackgroundWorker worker)
+        public bool startBackup(BackgroundWorker worker)
         {
             BackupBuilder builder = new BackupBuilder();
             //Add Dirs to the Files List
@@ -69,9 +76,23 @@ namespace Backup.Core
             builder.Worker = worker;
             if (Destination != null)
             {
-                builder.BuildBackup(backupFiles, Destination);    
+                return builder.BuildBackup(backupFiles, Destination);    
             }
-            
+            else
+            {
+                return false;
+            }
+        }
+
+        internal string BuildSummary()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("The Backup was successfully finsihed!");
+            builder.AppendLine();
+            builder.AppendLine("The following Files have been saved:");
+            builder.Append(Summary);
+            Logger.SummaryLog(Summary, Destination.Directory);
+            return builder.ToString();
         }
     }
 }

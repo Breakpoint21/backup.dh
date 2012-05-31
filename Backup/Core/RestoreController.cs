@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.ComponentModel;
 
 namespace Backup.Core
 {
@@ -11,6 +12,20 @@ namespace Backup.Core
         private static RestoreController instance;
         private FileInfo backupFile;
         private Dictionary<FileInfo, long> selectedFiles = new Dictionary<FileInfo,long>();
+        private Dictionary<FileInfo, long> index = null;
+        private string summary;
+
+        public string Summary
+        {
+            get { return summary; }
+            set { summary = value; }
+        }
+
+        public Dictionary<FileInfo, long> Index
+        {
+            get { return index; }
+            set { index = value; }
+        }
 
         public Dictionary<FileInfo, long> SelectedFiles
         {
@@ -45,33 +60,47 @@ namespace Backup.Core
             return instance;
         }
 
-        internal void RestoreBackup()
+        internal bool RestoreBackup(BackgroundWorker worker)
         {
             RestoreBuilder builder = new RestoreBuilder();
             if (RestoreDestination != null && BackupFile != null)
             {
-                builder.RestoreBackup(BackupFile.FullName, RestoreDestination);
+                return builder.RestoreBackup(BackupFile.FullName, RestoreDestination, worker);
             }
+            return false;
         }
 
         internal Dictionary<FileInfo, long> BuildIndex()
         {
-            Dictionary<FileInfo, long> ret = new Dictionary<FileInfo, long>();
+            Index = new Dictionary<FileInfo, long>();
             RestoreBuilder builder = new RestoreBuilder();
             if (BackupFile != null)
             {
-                ret = builder.createIndex(BackupFile.FullName);
+                Index = builder.createIndex(BackupFile.FullName);
             }
-            return ret;
+            return Index;
         }
 
-        internal void RestoreSelectedFiles()
+        internal bool RestoreSelectedFiles(BackgroundWorker worker)
         {
             RestoreBuilder builder = new RestoreBuilder();
             if (BackupFile != null && RestoreDestination != null)
             {
-                builder.RestoreSelectedFiles(BackupFile, RestoreDestination, SelectedFiles);
+                return builder.RestoreSelectedFiles(BackupFile, RestoreDestination, SelectedFiles, worker);
             }
+            return false;
+        }
+
+        internal string BuildSummary()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("Restoring the Backup was successfully completed");
+            builder.AppendLine();
+            builder.AppendLine("The following files have been restored: ");
+            builder.Append(Summary);
+            builder.AppendLine();
+            Logger.SummaryLog(Summary, RestoreDestination);
+            return builder.ToString(); ;
         }
     }
 }

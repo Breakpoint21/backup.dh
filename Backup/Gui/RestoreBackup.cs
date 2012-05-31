@@ -88,13 +88,25 @@ namespace Backup.Gui
 
         private void btnStartRestore_Click(object sender, EventArgs e)
         {
-            if (rdbCompleteBackup.Checked)
+            if (Controller.BackupFile != null && Controller.RestoreDestination != null)
             {
-                Controller.RestoreBackup();
+                if (!restoreWorker.IsBusy)
+                {
+                    restoreWorker.RunWorkerAsync();
+                }
             }
             else
             {
-                Controller.RestoreSelectedFiles();
+                if (Controller.BackupFile == null)
+                {
+                    restoreToolTip.SetToolTip(txtRestoreSource, "Required");
+                    restoreToolTip.Show("Please Select a Backup File first", txtRestoreSource, 1000);
+                }
+                else if (Controller.RestoreDestination == null)
+                {
+                    restoreToolTip.SetToolTip(txtRestoreDestination, "Required");
+                    restoreToolTip.Show("Please Select a Destination first", txtRestoreDestination, 1000);
+                }
             }
         }
 
@@ -171,17 +183,38 @@ namespace Backup.Gui
 
         private void restoreWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-
+            if (rdbCompleteBackup.Checked)
+            {
+                e.Result = Controller.RestoreBackup(restoreWorker);
+            }
+            else
+            {
+                e.Result = Controller.RestoreSelectedFiles(restoreWorker);
+            }
         }
 
         private void restoreWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-
+            prgRestore.Value = e.ProgressPercentage;
         }
 
         private void restoreWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            bool result = (bool) e.Result;
+            prgRestore.Value = 0;
+            if (result)
+            {
 
+                MessageBox.Show(this,Controller.BuildSummary(), "Restore Completed", MessageBoxButtons.OK);
+            }
+            else
+            {
+                DialogResult res = MessageBox.Show(this, "Restoring the selected Backup failed.", "Restore failed",MessageBoxButtons.RetryCancel);
+                if (res == DialogResult.Retry)
+                {
+                    restoreWorker.RunWorkerAsync();
+                }
+            }
         }
     }
 }

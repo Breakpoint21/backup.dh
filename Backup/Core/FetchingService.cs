@@ -58,7 +58,7 @@ namespace Backup.Core
                     return true;
                 }
             }
-            catch (UnauthorizedAccessException ex)
+            catch (UnauthorizedAccessException)
             {
                 return true;
             }

@@ -36,6 +36,24 @@ namespace Backup.Core
 
         }
 
+        public static void SummaryLog(string message, DirectoryInfo dest)
+        {
+            FileInfo log = new FileInfo(dest.FullName + Path.DirectorySeparatorChar + "summary.log");
+            if (!log.Exists)
+            {
+                log.Create();
+            }
+            if (logFile != null)
+            {
+                using (StreamWriter logWriter = log.AppendText())
+                {
+                    logWriter.Write(message);
+                    logWriter.Flush();
+                    logWriter.Close();
+                }
+            }
+        }
+
         public static void Log(string message, Level level)
         {
             string logMessage;

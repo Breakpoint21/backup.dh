@@ -250,4 +250,25 @@
   <data name="txtSearch.Text" xml:space="preserve">
     <value>Suche...</value>
   </data>
+  <data name="cbxFilter.Items" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="cbxFilter.Items1" xml:space="preserve">
+    <value>Dateiendung</value>
+  </data>
+  <data name="cbxFilter.Items2" xml:space="preserve">
+    <value>Regex</value>
+  </data>
+  <data name="cbxFilter.Items3" xml:space="preserve">
+    <value>Name genau</value>
+  </data>
+  <data name="cbxFilter.Items4" xml:space="preserve">
+    <value>Dateiendung genau</value>
+  </data>
+  <data name="cbxFilter.Items5" xml:space="preserve">
+    <value>Regex genau</value>
+  </data>
+  <data name="lblRestore.Text" xml:space="preserve">
+    <value>Wiederherstellen</value>
+  </data>
 </root>

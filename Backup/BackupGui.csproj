@@ -97,6 +97,9 @@
     <EmbeddedResource Include="Gui\Explorer.resx">
       <DependentUpon>Explorer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Gui\ExplorerList.de.resx">
+      <DependentUpon>ExplorerList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Gui\ExplorerList.resx">
       <DependentUpon>ExplorerList.cs</DependentUpon>
     </EmbeddedResource>

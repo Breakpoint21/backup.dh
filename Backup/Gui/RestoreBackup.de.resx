@@ -144,4 +144,7 @@
   <data name="rdbSelectedBackup.Text" xml:space="preserve">
     <value>Dateien auswählen</value>
   </data>
+  <data name="size.Text" xml:space="preserve">
+    <value>Größe</value>
+  </data>
 </root>

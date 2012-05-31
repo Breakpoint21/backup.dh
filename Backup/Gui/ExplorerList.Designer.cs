@@ -48,19 +48,16 @@
             // 
             // explorerListView
             // 
+            resources.ApplyResources(this.explorerListView, "explorerListView");
             this.explorerListView.CheckBoxes = true;
             this.explorerListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
-            this.explorerListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.explorerListView.FullRowSelect = true;
-            this.explorerListView.Location = new System.Drawing.Point(0, 0);
             this.explorerListView.Name = "explorerListView";
-            this.explorerListView.Size = new System.Drawing.Size(388, 153);
             this.explorerListView.SmallImageList = this.imageList1;
-            this.explorerListView.TabIndex = 0;
             this.explorerListView.UseCompatibleStateImageBehavior = false;
             this.explorerListView.View = System.Windows.Forms.View.Details;
             this.explorerListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.explorerListView_ColumnClick);
@@ -69,32 +66,27 @@
             // columnHeader1
             // 
             this.columnHeader1.Tag = "Name";
-            this.columnHeader1.Text = "Name";
-            this.columnHeader1.Width = 150;
+            resources.ApplyResources(this.columnHeader1, "columnHeader1");
             // 
             // columnHeader2
             // 
             this.columnHeader2.Tag = "LastWriteTime";
-            this.columnHeader2.Text = "File Type";
+            resources.ApplyResources(this.columnHeader2, "columnHeader2");
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Size";
-            this.columnHeader3.Width = 65;
+            resources.ApplyResources(this.columnHeader3, "columnHeader3");
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "Date";
-            this.columnHeader4.Width = 80;
+            resources.ApplyResources(this.columnHeader4, "columnHeader4");
             // 
             // ExplorerList
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.Controls.Add(this.explorerListView);
             this.Name = "ExplorerList";
-            this.Size = new System.Drawing.Size(388, 153);
             this.ResumeLayout(false);
 
         }

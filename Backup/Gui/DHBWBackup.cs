@@ -97,8 +97,8 @@ namespace Backup.Gui
             }
             else
             {
-                dstToolTip.SetToolTip(toolStrip2, "Required");
-                dstToolTip.Show("Please select a Destination first", toolStrip2, 1000);
+                dstToolTip.SetToolTip(toolStrip1, "");
+                dstToolTip.Show("Please select a Destination first", toolStrip1, 1000);
             }
         }
 

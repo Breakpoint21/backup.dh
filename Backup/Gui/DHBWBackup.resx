@@ -226,13 +226,13 @@
     <value>17, 17</value>
   </metadata>
   <data name="menuItemOpen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>127, 22</value>
   </data>
   <data name="menuItemOpen.Text" xml:space="preserve">
     <value>Öffnen</value>
   </data>
   <data name="menuItemExit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>127, 22</value>
   </data>
   <data name="menuItemExit.Text" xml:space="preserve">
     <value>Beenden</value>
@@ -663,9 +663,6 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>616, 302</value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>DHBWBackup</value>

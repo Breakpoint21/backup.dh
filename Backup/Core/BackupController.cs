@@ -36,15 +36,6 @@ namespace Backup.Core
             BackupBuilder builder = new BackupBuilder();
             //Add Dirs to the Files List
             List<FileInfo> backupFiles = new List<FileInfo>();
-            //FetchingService service = new FetchingService();
-            //foreach (BackupFileInfo dir in SelectedDirs)
-            //{
-            //    //backupFiles.AddRange(service.FetchAllFiles(dir.DirInfo));
-            //}
-            //foreach (BackupFileInfo file in SelectedFiles)
-            //{
-            //    backupFiles.Add(file.FileIn);
-            //}
             foreach (KeyValuePair<int,string> item in Selected)
             {
                 backupFiles.Add(new FileInfo(item.Value));

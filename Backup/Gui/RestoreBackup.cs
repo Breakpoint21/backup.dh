@@ -180,8 +180,8 @@ namespace Backup.Gui
             prgRestore.Value = 0;
             if (result)
             {
-
-                MessageBox.Show(this,Controller.BuildSummary(), "Restore Completed", MessageBoxButtons.OK);
+                SummaryMessageBox msg = new SummaryMessageBox(Controller.BuildSummary(), "Restore Completed");
+                msg.ShowDialog(this);
             }
             else
             {

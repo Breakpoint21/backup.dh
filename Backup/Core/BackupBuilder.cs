@@ -51,16 +51,20 @@ namespace Backup.Core
                 {
                     fs.Write(header, 0, header.Length);
                     fs.Write(manifest, 0, manifest.Length);
+                    double progress = 0;
                     foreach (BackupFile byteFile in byteFiles)
                     {
                         foreach (byte[] item in byteFile.File)
                         {
                             fs.Write(item, 0, item.Length);
                         }
+                        progress += (100 / (double) byteFiles.Count);
+                        Worker.ReportProgress((int)progress);
                     }
                     fs.Close();
                 }
                 AppendSavedFiles(summary);
+                Worker.ReportProgress(0);
             }
             catch (Exception ex)
             {
@@ -70,10 +74,11 @@ namespace Backup.Core
                 {
                     new FileInfo(tempFile).Delete();
                 }
+                Worker.ReportProgress(0);
                 return false;
             }
 			watch.Stop();
-			Logger.Log("Build Temp file took: " + watch.ElapsedMilliseconds + "ms", Logger.Level.DIAGNOSTIC);
+			Logger.Log("Build Temp file took: " + watch.ElapsedMilliseconds + "ms (Size: " + new FileInfo(tempFile).Length / 1024 + "KB)", Logger.Level.DIAGNOSTIC);
             bool ret = Compress(tempFile);
             AppendSummary(destination, summary, toRemove);
 			return ret;
@@ -91,6 +96,8 @@ namespace Backup.Core
 
         private void BuildByteFiles(List<BackupFile> byteFiles, List<FileInfo> toRemove)
         {
+            Worker.ReportProgress(0);
+            double progress = 0;
             foreach (FileInfo file in FilesToBackup)
             {
                 BackupFile f = new BackupFile();
@@ -102,11 +109,14 @@ namespace Backup.Core
                 {
                     toRemove.Add(file);
                 }
+                progress += (100 / (double)FilesToBackup.Count);
+                Worker.ReportProgress((int)progress);
             }
             foreach (FileInfo file in toRemove)
             {
                 FilesToBackup.Remove(file);
             }
+            Worker.ReportProgress(0);
         }
 
         /// <summary>
@@ -189,6 +199,7 @@ namespace Backup.Core
             catch (Exception ex)
             {
                 Logger.Log("Error while compressing the Backup File. Message: " + ex.Message, Logger.Level.ERROR);
+                Worker.ReportProgress(0);
                 return false;
             }
 			watch.Stop();

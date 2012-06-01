@@ -247,7 +247,7 @@
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="restoreFilesListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="File.Text" xml:space="preserve">
     <value>File</value>
@@ -357,6 +357,9 @@
   <data name="&gt;&gt;lblSource.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="btnStartRestore.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="btnStartRestore.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 304</value>
   </data>
@@ -384,6 +387,9 @@
   <metadata name="restoreWorker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="prgRestore.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
   <data name="prgRestore.Location" type="System.Drawing.Point, System.Drawing">
     <value>294, 304</value>
   </data>

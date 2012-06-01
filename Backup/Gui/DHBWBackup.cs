@@ -162,7 +162,8 @@ namespace Backup.Gui
             pgbStatus.Value = 0;
             if (result)
             {
-                MessageBox.Show(Controller.BuildSummary(), "Backup Completed", MessageBoxButtons.OK);
+                SummaryMessageBox msg = new SummaryMessageBox(Controller.BuildSummary(), "Backup Completed");
+                msg.ShowDialog(this);
             }
         }
 

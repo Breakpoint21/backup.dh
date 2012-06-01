@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DHBWBackup));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.explorer = new Backup.Gui.Explorer();
+            this.explorerList = new Backup.Gui.ExplorerList();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,8 +59,6 @@
             this.txtExplorerPath = new System.Windows.Forms.ToolStripTextBox();
             this.dstToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.explorer = new Backup.Gui.Explorer();
-            this.explorerList = new Backup.Gui.ExplorerList();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -81,6 +81,17 @@
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.explorerList);
+            // 
+            // explorer
+            // 
+            resources.ApplyResources(this.explorer, "explorer");
+            this.explorer.Name = "explorer";
+            // 
+            // explorerList
+            // 
+            resources.ApplyResources(this.explorerList, "explorerList");
+            this.explorerList.CurrentDir = null;
+            this.explorerList.Name = "explorerList";
             // 
             // menuStrip
             // 
@@ -269,17 +280,6 @@
             this.imageList.Images.SetKeyName(0, "Hard_Drive.png");
             this.imageList.Images.SetKeyName(1, "FolderOpen_16x16_72.png");
             this.imageList.Images.SetKeyName(2, "Hard_Drive.png");
-            // 
-            // explorer
-            // 
-            resources.ApplyResources(this.explorer, "explorer");
-            this.explorer.Name = "explorer";
-            // 
-            // explorerList
-            // 
-            resources.ApplyResources(this.explorerList, "explorerList");
-            this.explorerList.CurrentDir = null;
-            this.explorerList.Name = "explorerList";
             // 
             // DHBWBackup
             // 

@@ -61,7 +61,15 @@ namespace Backup.Core
             DateCreated = Encoding.Unicode.GetBytes(fileInfo.CreationTime.ToString());
             DateEdit = Encoding.Unicode.GetBytes(fileInfo.LastWriteTime.ToString());
             //Saving the actual Filedata
-            Data = new byte[(int)fileInfo.Length];
+            try
+            {
+                Data = new byte[(int)fileInfo.Length];
+            }
+            catch (OutOfMemoryException e)
+            {
+                Logger.Log(e.Message, Logger.Level.ERROR);
+                return false;
+            }
             try
             {
                 using (FileStream reader = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))

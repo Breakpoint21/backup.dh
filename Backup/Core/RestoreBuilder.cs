@@ -151,12 +151,12 @@ namespace Backup.Core
         {
             //Create Dictorary which holds the offset for every File
             Dictionary<FileInfo, long> index = createIndex(BackupFile.FullName);
-            Dictionary<string, long> offsetIndex = new Dictionary<string, long>();
+            Dictionary<int, long> offsetIndex = new Dictionary<int, long>();
             StringBuilder summary = new StringBuilder();
             long offset = 0;
             foreach (KeyValuePair<FileInfo, long> item in index)
             {
-                offsetIndex.Add(item.Key.Name, offset);
+                offsetIndex.Add(item.Key.FullName.GetHashCode(), offset);
                 offset += item.Value;
             }
 
@@ -178,7 +178,7 @@ namespace Backup.Core
                     int it = 0;
                     foreach (KeyValuePair<FileInfo, long> file in SelectedFiles)
                     {
-                        long pos = offsetIndex[file.Key.Name];
+                        long pos = offsetIndex[file.Key.FullName.GetHashCode()];
                         reader.Seek((header.Length + manifest.Length + pos), SeekOrigin.Begin);
                         BackupFile f = new BackupFile();
                         f.restore(reader, RestoreDestination);

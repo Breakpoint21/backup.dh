@@ -11,6 +11,7 @@ namespace Backup.Core
     {
         private List<BackupFileInfo> selectedDirs = new List<BackupFileInfo>();
         private List<BackupFileInfo> selectedFiles = new List<BackupFileInfo>();
+        private Dictionary<int, string> selected = new Dictionary<int, string>();
         private FileInfo destination = null;
         private string summary;
 
@@ -35,13 +36,18 @@ namespace Backup.Core
             BackupBuilder builder = new BackupBuilder();
             //Add Dirs to the Files List
             List<FileInfo> backupFiles = new List<FileInfo>();
-            foreach (BackupFileInfo dir in SelectedDirs)
+            //FetchingService service = new FetchingService();
+            //foreach (BackupFileInfo dir in SelectedDirs)
+            //{
+            //    //backupFiles.AddRange(service.FetchAllFiles(dir.DirInfo));
+            //}
+            //foreach (BackupFileInfo file in SelectedFiles)
+            //{
+            //    backupFiles.Add(file.FileIn);
+            //}
+            foreach (KeyValuePair<int,string> item in Selected)
             {
-                backupFiles.AddRange(dir.DirInfo.GetFiles("*", SearchOption.AllDirectories));
-            }
-            foreach (BackupFileInfo file in SelectedFiles)
-            {
-                backupFiles.Add(file.FileIn);
+                backupFiles.Add(new FileInfo(item.Value));
             }
             builder.Worker = worker;
             if (Destination != null)
@@ -69,10 +75,13 @@ namespace Backup.Core
         {
             if (directoryInfo.FullName != directoryInfo.Root.FullName)
             {
-                FetchingService service = new FetchingService();
-                foreach (FileInfo file in service.FetchAllFiles(directoryInfo))
+                foreach (string file in Directory.GetFiles(directoryInfo.FullName, "*", SearchOption.AllDirectories))
                 {
-                    this.SelectedFiles.Add(new BackupFileInfo(file));
+                    this.Selected.Add(file.GetHashCode(), file);
+                }
+                foreach (string dir in Directory.GetDirectories(directoryInfo.FullName, "*", SearchOption.AllDirectories))
+                {
+                    this.SelectedDirs.Add(new BackupFileInfo(new DirectoryInfo(dir)));
                 }
             }
         }
@@ -81,10 +90,15 @@ namespace Backup.Core
         {
             if (directoryInfo.Root.FullName != directoryInfo.FullName)
             {
-                FetchingService service = new FetchingService();
-                foreach (FileInfo file in service.FetchAllFiles(directoryInfo))
+                string[] files = Directory.GetFiles(directoryInfo.FullName, "*", SearchOption.AllDirectories);
+                foreach (string file in files)
                 {
-                    this.SelectedFiles.Remove(new BackupFileInfo(file));
+                    this.Selected.Remove(file.GetHashCode());
+                }
+                string[] dirs = Directory.GetDirectories(directoryInfo.FullName, "*", SearchOption.AllDirectories);
+                foreach (string dir in dirs)
+                {
+                    this.SelectedDirs.Remove(new BackupFileInfo(new DirectoryInfo(dir)));
                 }
             }
         }
@@ -118,6 +132,12 @@ namespace Backup.Core
         {
             get { return selectedDirs; }
             set { selectedDirs = value; }
+        }
+
+        public Dictionary<int, string> Selected
+        {
+            get { return selected; }
+            set { selected = value; }
         }
         #endregion
     }

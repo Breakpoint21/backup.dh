@@ -31,6 +31,17 @@ namespace Backup.Gui
                 this.checkFromDoubleClick = true;
             }
             base.OnMouseDown(e);
+
+            ListViewItem item = this.GetItemAt(e.X, e.Y);
+            if (item != null)
+            {
+                if (this.SelectedItems.Count == 1)
+                {
+                    this.SelectedItems.Clear();   
+                }
+                item.Selected = true;
+            }
+            
         }
     }
 }

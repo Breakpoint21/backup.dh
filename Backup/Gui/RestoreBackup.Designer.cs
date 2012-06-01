@@ -40,7 +40,7 @@
             this.size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnBrowseSource = new System.Windows.Forms.Button();
             this.txtRestoreSource = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblSource = new System.Windows.Forms.Label();
             this.btnStartRestore = new System.Windows.Forms.Button();
             this.restoreWorker = new System.ComponentModel.BackgroundWorker();
             this.prgRestore = new System.Windows.Forms.ProgressBar();
@@ -113,10 +113,10 @@
             this.txtRestoreSource.Name = "txtRestoreSource";
             this.txtRestoreSource.Click += new System.EventHandler(this.txtRestoreSource_Click);
             // 
-            // label1
+            // lblSource
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(this.lblSource, "lblSource");
+            this.lblSource.Name = "lblSource";
             // 
             // btnStartRestore
             // 
@@ -150,7 +150,7 @@
             this.Controls.Add(this.btnStartRestore);
             this.Controls.Add(this.btnBrowseSource);
             this.Controls.Add(this.txtRestoreSource);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblSource);
             this.Controls.Add(this.restoreFilesListView);
             this.Controls.Add(this.btnBrowseDestiation);
             this.Controls.Add(this.txtRestoreDestination);
@@ -175,7 +175,7 @@
         private System.Windows.Forms.ListView restoreFilesListView;
         private System.Windows.Forms.Button btnBrowseSource;
         private System.Windows.Forms.TextBox txtRestoreSource;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblSource;
         private System.Windows.Forms.Button btnStartRestore;
         private System.Windows.Forms.ColumnHeader File;
         private System.Windows.Forms.ColumnHeader size;

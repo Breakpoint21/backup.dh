@@ -26,41 +26,46 @@ namespace Backup.Gui
             Controller = BackupController.getInstance();
             InitializeComponent();
             this.cbxFilter.SelectedIndex = 0;
-            this.explorer1.ExplorerTreeV.NodeMouseClick += new TreeNodeMouseClickEventHandler(this.ExplorerTreeV_NodeMouseClick);
-            this.explorerList1.ExListView.ItemChecked += new ItemCheckedEventHandler(ExListView_ItemChecked);
-            this.explorerList1.PropertyChanged += new PropertyChangedEventHandler(currentDirectoryChanged);
+            this.explorer.ExplorerTreeV.NodeMouseClick += new TreeNodeMouseClickEventHandler(this.ExplorerTreeV_NodeMouseClick);
+            this.explorerList.ExListView.ItemChecked += new ItemCheckedEventHandler(ExListView_ItemChecked);
+            this.explorerList.PropertyChanged += new PropertyChangedEventHandler(currentDirectoryChanged);
         }
 
         void currentDirectoryChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.txtExplorerPath.Text = explorerList1.CurrentDir.FullName;
+            this.txtExplorerPath.Text = explorerList.CurrentDir.FullName;
         }
 
         void ExListView_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             ExplorerListItem item = e.Item as ExplorerListItem;
+            if (explorerList.ExListView.SelectedItems.Count == 0)
+            {
+                return;
+            }
+            
             if (item.Checked)
             {
                 if (item.DirInfo != null)
                 {
-                    //Controller.AddDirectory(item.DirInfo);
+                    Controller.AddDirectory(item.DirInfo);
                     Controller.SelectedDirs.Add(new BackupFileInfo(item.DirInfo));    
                 }
                 else
                 {
-                    Controller.SelectedFiles.Add(new BackupFileInfo(item.FileIn));
+                    Controller.Selected.Add(item.FileIn.FullName.GetHashCode(), item.FileIn.FullName);
                 }
             }
             else
             {
                 if (item.DirInfo != null)
                 {
-                    //Controller.RemoveDirectory(item.DirInfo);
+                    Controller.RemoveDirectory(item.DirInfo);
                     Controller.SelectedDirs.Remove(new BackupFileInfo(item.DirInfo));
                 }
                 else
                 {
-                    Controller.SelectedFiles.Remove(new BackupFileInfo(item.FileIn));
+                    Controller.Selected.Remove(item.FileIn.FullName.GetHashCode());
                 }
             }
             UpdateSelectedItemsLabel();
@@ -68,37 +73,32 @@ namespace Backup.Gui
 
         private void UpdateSelectedItemsLabel()
         {
-            int selected = 0;
-            selected += Controller.SelectedFiles.Count;
-            //FetchingService service = new FetchingService();
-            //foreach (BackupFileInfo dir in Controller.SelectedDirs)
-            //{
-            //    selected += service.FetchAllFiles(dir.DirInfo).Count;
-            //}
-            lblNumbSel.Text = selected.ToString();
+            lblNumbSel.Text = Controller.Selected.Count.ToString();
         }
         
         private void ExplorerTreeV_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             ExplorerTreeNode node = (ExplorerTreeNode)e.Node;
-            this.explorerList1.fillListView(node.Directory);
+            this.explorerList.fillListView(node.Directory);
         }
 
         private void menuButtonBack_Click(object sender, EventArgs e)
         {
-            this.explorerList1.DirectoryBack();
+            this.explorerList.DirectoryBack();
         }
 
         private void startBackupLabel_Click(object sender, EventArgs e)
         {
             if (Controller.Destination != null)
             {
-                backupWorker.RunWorkerAsync();   
+                if (!backupWorker.IsBusy)
+                {
+                    backupWorker.RunWorkerAsync();   
+                }
             }
             else
             {
-                dstToolTip.SetToolTip(toolStrip1, "");
-                dstToolTip.Show("Please select a Destination first", toolStrip1, 1000);
+                dstToolTip.Show("Please select a Destination first", tsBackupControl, new Point(txtBackupDestination.Bounds.Width/2, txtBackupDestination.Bounds.Top-txtBackupDestination.Height), 1000);
             }
         }
 
@@ -171,8 +171,8 @@ namespace Backup.Gui
             if (e.KeyCode == Keys.Enter)
             {
                 SearchController srchCtrl = new SearchController();
-                List<ExplorerListItem> matches = srchCtrl.Search(explorerList1.CurrentDir, txtSearch.Text ,(SearchController.SearchModus)cbxFilter.SelectedIndex);
-                explorerList1.fillListView(matches);
+                List<ExplorerListItem> matches = srchCtrl.Search(explorerList.CurrentDir, txtSearch.Text ,(SearchController.SearchModus)cbxFilter.SelectedIndex);
+                explorerList.fillListView(matches);
             }
         }
 
@@ -204,6 +204,11 @@ namespace Backup.Gui
                 RestoreBackup restore = new RestoreBackup(dia.FileName);
                 restore.Show();
             }
+        }
+
+        private void menuItemAbout_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This is a Backup Tool, which was developed during the C#/.NET I Course at DHBW Stuttgart.", "About", MessageBoxButtons.OK);
         }
     }
 }

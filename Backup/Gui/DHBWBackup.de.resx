@@ -271,4 +271,7 @@
   <data name="lblRestore.Text" xml:space="preserve">
     <value>Wiederherstellen</value>
   </data>
+  <data name="menuItemAbout.Text" xml:space="preserve">
+    <value>Über</value>
+  </data>
 </root>

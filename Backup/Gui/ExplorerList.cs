@@ -80,9 +80,12 @@ namespace Backup.Gui
 
         private void explorerListView_DoubleClick(object sender, EventArgs e)
         {
-            ListView.SelectedListViewItemCollection selected = explorerListView.SelectedItems;
-            ExplorerListItem sel = selected[0] as ExplorerListItem;
-          
+            ExplorerListItem sel = (sender as ListView).FocusedItem as ExplorerListItem;
+            if (sel == null)
+            {
+                return;
+            }
+
             if (sel.DirInfo != null)
             {
                 fillListView(sel.DirInfo);

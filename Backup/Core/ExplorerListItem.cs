@@ -49,8 +49,7 @@ namespace Backup.Core
             ParentDir = file.Directory;
             this.FileIn = file;
             this.Text = file.Name;
-
-            if (controller.SelectedFiles.Contains(new BackupFileInfo(file)))
+            if (controller.Selected.ContainsKey(file.FullName.GetHashCode()))
             {
                 this.Checked = true;
             }
